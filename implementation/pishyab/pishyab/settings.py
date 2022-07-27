@@ -29,6 +29,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '*']
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -42,7 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home'
+    'home',
+    # 'user',
 ]
 
 MIDDLEWARE = [
@@ -140,3 +142,5 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'pishyab@zohomail.com'
 EMAIL_HOST_PASSWORD = 'Codeforces41e'
 ########################################
+
+# AUTH_USER_MODEL = 'user.MyUser' 

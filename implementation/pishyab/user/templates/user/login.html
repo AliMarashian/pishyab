@@ -2,7 +2,7 @@
 {% load crispy_forms_tags %}
 {% block start %}
 
- <div class="content-section col-md-8 col-md-offset-2">
+ <div class="content-section col-md-8 col-md-offset-2" dir="rtl">
   <center>
   <form method="POST" style="border: 1px solid black; margin: 4%; padding:10%; border-radius:1%;">
     {% csrf_token %}
@@ -13,7 +13,7 @@
     <button style="background: black; font-size: 2rem; padding:1%; color: white;" class="btn btn-outline-info" type="submit"><span class="glyphicon glyphicon-log-in"></span> &nbsp; ورود</button>
   </center>
   <br/>
-  <sub style="text-align: left;"><a href="{% url 'register' %}" style="font-size:200%;text-decoration: none; color: blue; padding:2%; cursor:pointer;">حساب کاربری ندارم</a></sub>
+  <sub style="text-align: right;"><a href="{% url 'register' %}" style="font-size:150%;text-decoration: none; color: blue; padding:2%; cursor:pointer;">حساب کاربری ندارم</a></sub>
   </form>
 </center>
  </div>
