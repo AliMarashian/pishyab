@@ -4,16 +4,20 @@
 
 
 <!-- 
-title = models.CharField(max_length = 50)
-description = models.CharField(max_length = 200)
-start_date = models.DateTimeField()
-end_date = models.DateTimeField()
-price = models.IntegerField()
-percentage = models.IntegerField() 
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    title = models.CharField(max_length = 50)
+    description = models.CharField(max_length = 200)
+    start_date = models.DateField()
+    start_time = models.TimeField()
+    end_date = models.DateField()
+    end_time = models.TimeField()
+    price = models.IntegerField()
+    discount = models.IntegerField()
 -->
 
 <div class="w3-container" style="padding:128px 16px" id="team" dir="rtl">
-    <h3 class="w3-center">پیشنهاد‌های شما</h3>
+    <!-- <h3 class="w3-center">پیشنهاد‌های شما</h3> -->
+    <h3 class="w3-center">پیشنهادهای  ویژه</h3>
     <p class="w3-center w3-large"></p>
     <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
     {% for x in myoffers %}
@@ -22,11 +26,13 @@ percentage = models.IntegerField()
           <img src="https://www.citypng.com/public/uploads/preview/warranty-ribbon-blue-icon-logo-sign-label-badge-png-11635941164yp8i70hmcb.png" alt="{{x.title}}" style="width:100%">
           <div class="w3-container">
             <h3 >{{ x.title }}</h3>
-            <p class="w3-opacity">از دسته پیتزا</p>
+            
+            <p class="w3-opacity">{{ x.username }}</p>
             <p>{{ x.description }}</p>
-            <p>از {{ x.start_date }} تا {{x.end_date}}</p>
+            <p>از {{x.start_date}}, {{x.start_time}}</p>
+            <p>تا {{x.end_date}}, {{x.end_time}}</p>
             <p>قیمت اصلی: {{x.price}}</p>
-            <p>تخفیف: {{x.percentage}} درصد</p>
+            <p>تخفیف: {{x.discount}} درصد</p>
           </div>
         </div>
       </div>

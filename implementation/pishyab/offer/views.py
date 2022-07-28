@@ -40,8 +40,15 @@ def view_offers(request):
 
     my_offers = Offer.objects.all().values()
     # template = loader.get_template('view_schedule.html')
-    context = {
-        'myoffers': my_offers
-    }
     
+    for offer in my_offers:
+        # print(offer['title'])
+        # print(User.objects.get(id = offer.user_id).username)
+        offer['username'] = User.objects.get(id = offer['user_id']).username
+    
+    context = {
+        'myoffers': my_offers,
+    }
+
+    print("*" * 100)
     return render(request, "offer/view_offers.html", context)
