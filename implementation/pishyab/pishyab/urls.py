@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from user import views as user_view
+from offer import views as offer_view
 from django.contrib.auth import views as auth
 
 urlpatterns = [
@@ -28,4 +29,5 @@ urlpatterns = [
     path('login/', user_view.Login, name ='login'),
     path('logout/', auth.LogoutView.as_view(template_name ='home/index.html'), name ='logout'),
     path('register/', user_view.register, name ='register'),
+    path('view_offers/', offer_view.view_offers, name ='view_offers'),
 ]

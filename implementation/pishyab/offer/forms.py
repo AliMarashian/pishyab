@@ -11,3 +11,4 @@ class NewOfferForm():
     # class Meta:
     #     model = User
     #     fields = ['username', 'email', 'password1']
+    pass

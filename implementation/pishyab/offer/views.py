@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
-from forms import NewOfferForm
+from .forms import NewOfferForm
 from django.contrib import messages
+from .models import Offer
 
 
 
@@ -14,8 +15,19 @@ def new_offer(request):
             
             ################################################################## 
             messages.success(request, f'پیشنهاد شما اضافه شد!')
-            return redirect('home/index')
+            return redirect('offer/view_offers')
     else:
         form = NewOfferForm()
     return render(request, 'offer/new_offer.html', {'form': form, 'title':'پیشنهاد جدید'})
    
+
+
+def view_offers(request):
+
+    my_offers = Offer.objects.all().values()
+    # template = loader.get_template('view_schedule.html')
+    context = {
+        'myoffers': my_offers
+    }
+    
+    return render(request, "offer/view_offers.html", context)

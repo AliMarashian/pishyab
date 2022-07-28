@@ -1,0 +1,40 @@
+{% extends "home/index.html" %}
+<!-- {% load crispy_forms_tags %} -->
+{% block start %}
+
+
+<!-- 
+title = models.CharField(max_length = 50)
+description = models.CharField(max_length = 200)
+start_date = models.DateTimeField()
+end_date = models.DateTimeField()
+price = models.IntegerField()
+percentage = models.IntegerField() 
+-->
+
+<div class="content-section col-md-8 col-md-offset-2" dir="rtl">
+    <table class="styled-table" border="1" align=center>
+        <thead>
+        <th> عنوان </th>
+        <th> توضیحات</th>
+        <th> شروع بازه تخفیف </th>
+        <th> پایان بازه تخفیف</th>
+        <th> قیمت</th>
+        <th> درصد تخفیف</th>
+        </thead>
+        {% for x in myoffers %} <!-- Showing a row for all the scheduled events -->
+        <tbody>
+        <tr class="active-row">
+        <td>{{ x.title }}</td>
+        <td>{{ x.description}}</td>
+        <td>{{ x.start_date}}</td>
+        <td>{{ x.end_date}}</td>
+        <td>{{ x.price}}</td>
+        <td>{{ x.percentage}}</td>
+        <td><a href="delete/{{ x.id }}">حذف</a> <!-- Deleting the event if necessary -->
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock start %}
