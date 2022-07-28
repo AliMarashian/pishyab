@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '*']
 INSTALLED_APPS = [
     # user app
     'user.apps.UserConfig',
+    'offer.apps.OfferConfig',
     # crispy_forms
     'crispy_forms',
     'django.contrib.admin',
