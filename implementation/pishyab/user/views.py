@@ -15,12 +15,12 @@ from django.contrib.auth.models import User
    
    
 #################### index ####################################### 
-def index(request):
-    # user = User(email="salam")
-    # user.save()
-    # print(user)
-    # print(User.objects.get(id="1").orgname)
-    return render(request, 'user/index.html', {'title':'پیشیاب'})
+# def index(request):
+#     # user = User(email="salam")
+#     # user.save()
+#     # print(user)
+#     # print(User.objects.get(id="1").orgname)
+#     return render(request, 'user/index.html', {'title':'پیشیاب'})
    
 ########### register here ##################################### 
 def register(request):
@@ -61,6 +61,7 @@ def Login(request):
         if user is not None:
             form = login(request, user)
             messages.success(request, f' خوش آمدید {username} !!!')
+            request.session['username'] = user.username
             return redirect('index')
         else:
             messages.info(request, f'اطلاعات کاربری درست نمی‌باشد!')
