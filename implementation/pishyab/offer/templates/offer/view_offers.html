@@ -12,29 +12,26 @@ price = models.IntegerField()
 percentage = models.IntegerField() 
 -->
 
-<div class="content-section col-md-8 col-md-offset-2" dir="rtl">
-    <table class="styled-table" border="1" align=center>
-        <thead>
-        <th> عنوان </th>
-        <th> توضیحات</th>
-        <th> شروع بازه تخفیف </th>
-        <th> پایان بازه تخفیف</th>
-        <th> قیمت</th>
-        <th> درصد تخفیف</th>
-        </thead>
-        {% for x in myoffers %} <!-- Showing a row for all the scheduled events -->
-        <tbody>
-        <tr class="active-row">
-        <td>{{ x.title }}</td>
-        <td>{{ x.description}}</td>
-        <td>{{ x.start_date}}</td>
-        <td>{{ x.end_date}}</td>
-        <td>{{ x.price}}</td>
-        <td>{{ x.percentage}}</td>
-        <td><a href="delete/{{ x.id }}">حذف</a> <!-- Deleting the event if necessary -->
-        </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="w3-container" style="padding:128px 16px" id="team" dir="rtl">
+    <h3 class="w3-center">پیشنهاد‌های شما</h3>
+    <p class="w3-center w3-large"></p>
+    <div class="w3-row-padding w3-grayscale" style="margin-top:64px">
+    {% for x in myoffers %}
+      <div class="w3-col l3 m6 w3-margin-bottom">
+        <div class="w3-card">
+          <img src="https://www.citypng.com/public/uploads/preview/warranty-ribbon-blue-icon-logo-sign-label-badge-png-11635941164yp8i70hmcb.png" alt="{{x.title}}" style="width:100%">
+          <div class="w3-container">
+            <h3 >{{ x.title }}</h3>
+            <p class="w3-opacity">از دسته پیتزا</p>
+            <p>{{ x.description }}</p>
+            <p>از {{ x.start_date }} تا {{x.end_date}}</p>
+            <p>قیمت اصلی: {{x.price}}</p>
+            <p>تخفیف: {{x.percentage}} درصد</p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
 </div>
+
 {% endblock start %}
