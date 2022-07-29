@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+
+from user.models import MyUser
 from .forms import NewOfferForm
 from django.contrib import messages
 from .models import Offer
@@ -9,6 +11,12 @@ from django.contrib.auth.models import User
 def new_offer(request):
 
     # Check if user is logged in as provider
+    username = request.session.get("username")
+    user = User.objects.get(username=username)
+    my_user = MyUser.objects.get(user=user)
+
+    if not my_user.is_provider:
+        return render(request, 'home/index.html', {'title':'پیشیاب', 'my_user':my_user})
 
     if request.method == 'POST':
         form = NewOfferForm(request.POST)
