@@ -2,9 +2,9 @@
 {% load crispy_forms_tags %}
 {% block start %}
 
- <div class="content-section col-md-8 col-md-offset-2" dir="rtl">
+ <div class="content-section col-md-8 col-md-offset-2" dir="rtl" style="border: 1px solid black; margin-top:4%; margin-bottom:4%; padding:4% 10% 2% 10%; border-radius:1%;">
   <center>
-  <form method="POST" style="border: 1px solid black; margin: 4%; padding:10%; border-radius:1%;">
+  <form method="POST">
     {% csrf_token %}
     <fieldset class="form-group">
       {{ form|crispy}}
