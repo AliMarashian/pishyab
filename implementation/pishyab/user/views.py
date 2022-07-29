@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.forms import AuthenticationForm
-from .forms import UserRegisterForm, UserLoginForm
+from .forms import UserRegisterForm, UserLoginForm, ProviderRegisterForm
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
@@ -25,12 +25,18 @@ from django.contrib.auth.models import User
 ########### register here ##################################### 
 def register(request):
     if request.method == 'POST':
-        form = UserRegisterForm(request.POST)
+        is_provider = ('orgname' in request.POST)
+        if is_provider:
+            form_provider = ProviderRegisterForm(request.POST)
+            form = form_provider
+        else:
+            form_user = UserRegisterForm(request.POST)
+            form = form_user
         if form.is_valid():
             form.save()
             cleaned_form = form.cleaned_data
             user = User.objects.get(username=cleaned_form.get("username"))
-            my_user = MyUser(user=user, phone_no=cleaned_form.get("phone_no"), orgname=cleaned_form.get("orgname"))
+            my_user = MyUser(user=user, is_provider=is_provider, phone_no=cleaned_form.get("phone_no"), orgname=cleaned_form.get("orgname"))
             my_user.save()
             username = form.cleaned_data.get('username')
             email = form.cleaned_data.get('email')
@@ -46,8 +52,9 @@ def register(request):
             messages.success(request, f'حساب کاربری شما ساخته شد!')
             return redirect('login')
     else:
-        form = UserRegisterForm()
-    return render(request, 'user/register.html', {'form': form, 'title':'ثبت‌نام'})
+        form_user = UserRegisterForm()
+        form_provider = ProviderRegisterForm()
+    return render(request, 'user/register.html', {'form_user': form_user, 'form_provider': form_provider, 'title':'ثبت‌نام'})
    
 ################ login forms################################################### 
 def Login(request):

@@ -1,13 +1,73 @@
 {% extends "home/index.html" %}
 {% load crispy_forms_tags %}
+{% load static %}
+
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
 {% block start %}
 
-<div class="content-section col-md-8 col-md-offset-2" dir="rtl">
-  <form method="POST" style="border: 1px solid black; margin: 4%; padding:10%; border-radius:1%;">
+
+<script>
+  function ut_change() {
+    var checkBox = document.getElementById("ut_checkbox");
+    var form_user = document.getElementById("form_user");
+    var form_provider = document.getElementById("form_provider");
+    if (checkBox.checked == false){
+      form_user.style.display = "block";
+      form_provider.style.display = "none";
+    } else {
+      form_user.style.display = "none";
+      form_provider.style.display = "block";
+    }
+  }
+  </script>
+
+<div class="content-section col-md-8 col-md-offset-2" dir="rtl" style="border: 1px solid black; margin-top:4%; margin-bottom:4%; padding:4% 10% 2% 10%; border-radius:1%;">
+  <center>
+    <p style="margin:0px 0px 20px 0px;"><b>
+    نوع حساب خود را انتخاب کنید</b>
+  </p>
+    <div class="ut_row" style="width:70%;">
+      <div class="ut_column" style="color:#19a232">کاربر عادی</div>
+
+      <div class="ut_column">
+        <label class="switch">
+          <input type="checkbox" id="ut_checkbox" onclick="ut_change()">
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <div class="ut_column" style="color:#2196F3;">سرویس‌دهنده</div>
+    </div>
+    
+  </center>
+  
+  <form method="POST" style="display:block;" id="form_user">
     {% csrf_token %}
+
     <fieldset class="form-group">
-      {{ form|crispy}}
+      {{ form_user|crispy}}
     </fieldset>
+
+    <center>
+      <button style="background: black; padding:2%; font-size: 2rem; color:white;" class="btn btn-outline-info" type="submit"><span class="glyphicon glyphicon-check"></span> &nbsp; ثبت‌نام</button>
+    </center>
+    <br />
+    <center>
+      <sub><a href="{% url "login" %}" style="text-decoration: none; color: blue; padding:3%; cursor:pointer;font-size: 150%;">حساب کاربری دارم</a></sub>
+    </center>
+  </form>
+
+
+  <form method="POST" style="display:none;" id="form_provider">
+    {% csrf_token %}
+
+    <fieldset class="form-group">
+      {{ form_provider|crispy}}
+    </fieldset>
+
     <center>
       <button style="background: black; padding:2%; font-size: 2rem; color:white;" class="btn btn-outline-info" type="submit"><span class="glyphicon glyphicon-check"></span> &nbsp; ثبت‌نام</button>
     </center>
