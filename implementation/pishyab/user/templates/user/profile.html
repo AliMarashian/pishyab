@@ -1,6 +1,83 @@
 {% extends "home/index.html" %}
 {% block start %}
-
-
+<div class="w3-container" style="padding:12px 16px" id="team" dir="rtl">
+    <!-- <h3 class="w3-center">پیشنهاد‌های شما</h3> -->
+    <p class="w3-center w3-large"></p>
+    <div class="w3-row-padding w3-grayscale" style="margin-top:64px;">
+    <!-- <div style="width: 100%; display: table;"> -->
+    <div style="display: flex;">
+        <!-- style="position:absolute;top:0;right:0;" -->
+        <div class="w3-col l4 m6 w3-margin-bottom" style="flex-grow: 1;">
+            <div class="w3-card">
+                <img src="https://www.citypng.com/public/uploads/preview/warranty-ribbon-blue-icon-logo-sign-label-badge-png-11635941164yp8i70hmcb.png" alt="{{x.title}}" style="width:100%">
+                <div class="w3-container">
+                <h1 >{{ myuser.orgname }}</h1>
+                
+                <!-- <p class="w3-opacity">{{ myuser. }}</p> -->
+                
+                </div>
+            </div>
+        </div>
+        <div class="w3-col l4 m6 w3-margin-bottom" style="width: 90%; margin-right: 15px; margin-top:20px;">
+            <div class="card">
+                <div class="w3-row" style="display: flex;">
+                  <div  style="flex-grow:1;">
+                    <h6 style="align-items:center;">آدرس: </h6>
+                  </div>
+                  <div  style="width: 80%;">
+                    <h6 style="align-items:center;">خیابان آزادی</h6>
+                  </div>
+                </div>
+                <hr>
+                <div class="w3-row" style="display: flex;">
+                    <div  style="flex-grow:1;">
+                      <h6 style="align-items:center;"> شماره تماس: </h6>
+                    </div>
+                    <div  style="width: 80%;">
+                      <h6 style="align-items:center;">{{myuser.phone_no}}</h6>
+                    </div>
+                </div>
+                <hr>
+                <div class="w3-row" style="display: flex;">
+                    <div  style="flex-grow:1;">
+                      <h6 style="align-items:center;">ساعات فعالیت:</h6>
+                    </div>
+                    <div  style="width: 80%;">
+                      <h6 style="align-items:center;">8 صبح تا 8 شب</h6>
+                    </div>
+                </div>
+                <hr>
+        
+                <!-- <div class="w3-row">
+                  <div class="col-sm-12">
+                    <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
+                  </div>
+                </div> -->
+              </div>
+        
+        
+        </div>
+    </div>
+    <!-- </div> -->
+    <h3 class="w3-center"> پیشنهاد های ویژه از {{myuser.orgname}}</h3>
+    {% for x in myoffers %}
+      <div class="w3-col l3 m6 w3-margin-bottom">
+        <div class="w3-card">
+          <img src="https://www.citypng.com/public/uploads/preview/warranty-ribbon-blue-icon-logo-sign-label-badge-png-11635941164yp8i70hmcb.png" alt="{{x.title}}" style="width:100%">
+          <div class="w3-container">
+            <h3 >{{ x.title }}</h3>
+            
+            <p class="w3-opacity">{{ x.username }}</p>
+            <p>{{ x.description }}</p>
+            <p>از {{x.start_date}}, {{x.start_time}}</p>
+            <p>تا {{x.end_date}}, {{x.end_time}}</p>
+            <p>قیمت اصلی: {{x.price}}</p>
+            <p>تخفیف: {{x.discount}} درصد</p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+</div>
 {% endblock start %}
 

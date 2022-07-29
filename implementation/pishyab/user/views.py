@@ -1,3 +1,4 @@
+import imp
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
@@ -9,6 +10,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import get_template
 from django.template import Context
 from .models import MyUser
+from offer.models import Offer
 from django.contrib.auth.models import User
 # from django.conf import settings
 # User = settings.AUTH_USER_MODEL
@@ -67,3 +69,23 @@ def Login(request):
             messages.info(request, f'اطلاعات کاربری درست نمی‌باشد!')
     form = UserLoginForm()
     return render(request, 'user/login.html', {'form':form, 'title':'ورود'})
+
+
+def view_profile(request, username_):
+    user_of_interest = User.objects.get(username = username_)
+    my_user_to_show = MyUser.objects.get(user = user_of_interest)
+    
+    my_offers = Offer.objects.all().values()
+    user_offers = []
+
+    for offer in my_offers:
+        if User.objects.get(id = offer['user_id']).username == username_:
+            user_offers.append(offer)
+
+    context = {
+        'myuser': my_user_to_show,
+        'myoffers' : user_offers,
+    }
+
+    print("*" * 100)
+    return render(request, "user/profile.html", context)
