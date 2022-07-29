@@ -69,7 +69,7 @@ def Login(request):
         user = authenticate(request, username = username, password = password)
         if user is not None:
             form = login(request, user)
-            messages.success(request, f' خوش آمدید {username} !!!')
+            # messages.success(request, f' خوش آمدید {username} !!!')
             request.session['username'] = user.username
             return redirect('index')
         else:

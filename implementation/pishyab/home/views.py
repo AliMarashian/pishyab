@@ -11,7 +11,8 @@ def index(request):
     # user.save()
     # print(user)
     # print(User.objects.get(id="1").orgname)
+    myuser = None
     if username != None:
         user = User.objects.get(username=username)
-        my_user = MyUser.objects.get(user=user)
-    return render(request, 'home/index.html', {'title':'پیشیاب', 'my_user':my_user})
+        myuser = MyUser.objects.get(user=user)
+    return render(request, 'home/index.html', {'title':'پیشیاب', 'myuser':myuser})

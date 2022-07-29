@@ -69,13 +69,14 @@
           <ul class="nav navbar-nav navbar-right">
 
             {% if user.is_authenticated %}
-              {% if my_user.is_provider %}
-                <li><a href="{% url "new_offer" %}"><span class="glyphicon glyphicon-log-out"></span> &nbsp; پیشنهاد جدید</a></li>
+              {% if myuser.is_provider %}
+              <li><a href="{% url 'new_offer' %}">  پیشنهاد جدید &nbsp; <span class="glyphicon glyphicon-plus"></span> </a></li>
               {% endif %}
-              <li><a href="{% url "logout" %}"><span class="glyphicon glyphicon-log-out"></span> &nbsp; خروج</a></li>
+              <li><a href="{% url 'view_profile' user.username %}">  پروفایل من &nbsp; <span class="glyphicon glyphicon-user"></span> </a></li>
+              <li><a href="{% url 'logout' %}"> خروج &nbsp; <span class="glyphicon glyphicon-log-out"></span> </a></li>
             {% else %}
-              <li><a href="{% url "register" %}"><span class="glyphicon glyphicon-user"></span> &nbsp; ثبت‌نام</a></li>
-              <li><a href="{% url "login" %}"><span class="glyphicon glyphicon-log-in"></span> &nbsp; ورود</a></li>
+              <li><a href="{% url 'register' %}">ثبت‌نام &nbsp; <span class="	glyphicon glyphicon-edit"></span>  </a></li>
+              <li><a href="{% url 'login' %}">ورود &nbsp; <span class="glyphicon glyphicon-log-in"></span>  </a></li>
             {% endif %}
 
           </ul>
