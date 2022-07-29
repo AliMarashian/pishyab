@@ -17,6 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from user import views as user_view
+from home import views as home_view
 from offer import views as offer_view
 from django.contrib.auth import views as auth
 
