@@ -94,7 +94,8 @@ def view_profile(request, username_):
             user_offers.append(offer)
 
     context = {
-        'myuser': my_user_to_show,
+        'user_toshow' : user_of_interest,
+        'myuser_toshow': my_user_to_show,
         'myoffers' : user_offers,
     }
 
