@@ -11,7 +11,12 @@
             <div class="w3-card">
                 <img src="https://www.citypng.com/public/uploads/preview/warranty-ribbon-blue-icon-logo-sign-label-badge-png-11635941164yp8i70hmcb.png" alt="{{x.title}}" style="width:100%">
                 <div class="w3-container">
-                <h1 >{{ myuser.orgname }}</h1>
+                              
+                {% if myuser_toshow.is_provider %}
+                <h1 >{{ myuser_toshow.orgname }}</h1>
+                {% else %}
+                <h1 >{{ user_toshow.username }}</h1>
+                {% endif %}
                 
                 <!-- <p class="w3-opacity">{{ myuser. }}</p> -->
                 
@@ -22,31 +27,50 @@
             <div class="card">
                 <div class="w3-row" style="display: flex;">
                   <div  style="flex-grow:1;">
-                    <h6 style="align-items:center;">آدرس: </h6>
+                    <h6 style="align-items:center;">نوع کاربری: </h6>
                   </div>
-                  <div  style="width: 80%;">
-                    <h6 style="align-items:center;">خیابان آزادی</h6>
+                  <div  style="width: 80%;">       
+                    {% if myuser_toshow.is_provider %}
+                    <h6 style="align-items:center;">سرویس دهنده</h6>
+                    {% else %}
+                    <h6 style="align-items:center;">کاربر عادی</h6>
+                    {% endif %}
                   </div>
                 </div>
                 <hr>
+                {% if myuser_toshow.is_provider %}
+                <div class="w3-row" style="display: flex;">
+                  <div  style="flex-grow:1;">
+                    <h6 style="align-items:center;">آدرس: </h6>
+                  </div>
+                  <div  style="width: 80%;">
+                    <h6 style="align-items:center;">{{myuser_toshow.address}}</h6>
+                  </div>
+                </div>
+                <hr>
+                {% endif %}
+                
                 <div class="w3-row" style="display: flex;">
                     <div  style="flex-grow:1;">
                       <h6 style="align-items:center;"> شماره تماس: </h6>
                     </div>
                     <div  style="width: 80%;">
-                      <h6 style="align-items:center;">{{myuser.phone_no}}</h6>
+                      <h6 style="align-items:center;">{{myuser_toshow.phone_no}}</h6>
                     </div>
                 </div>
                 <hr>
+                
+                {% if myuser_toshow.is_provider %}
                 <div class="w3-row" style="display: flex;">
                     <div  style="flex-grow:1;">
-                      <h6 style="align-items:center;">ساعات فعالیت:</h6>
+                      <h6 style="align-items:center;">توضیحات:</h6>
                     </div>
                     <div  style="width: 80%;">
-                      <h6 style="align-items:center;">8 صبح تا 8 شب</h6>
+                      <h6 style="align-items:center;">{{myuser_toshow.description}}</h6>
                     </div>
                 </div>
                 <hr>
+                {% endif %}
         
                 <!-- <div class="w3-row">
                   <div class="col-sm-12">
@@ -59,7 +83,8 @@
         </div>
     </div>
     <!-- </div> -->
-    <h3 class="w3-center"> پیشنهاد های ویژه از {{myuser.orgname}}</h3>
+    {% if myuser_toshow.is_provider %}
+    <h3 class="w3-center"> پیشنهاد های ویژه از {{myuser_toshow.orgname}}</h3>
     {% for x in myoffers %}
       <div class="w3-col l3 m6 w3-margin-bottom">
         <div class="w3-card">
@@ -77,6 +102,10 @@
         </div>
       </div>
     {% endfor %}
+    
+    {% else %}
+    <h3 class="w3-center"> پیشنهاد های مورد علاقه {{user_toshow.username}}</h3>
+    {% endif %}
     </div>
 </div>
 {% endblock start %}

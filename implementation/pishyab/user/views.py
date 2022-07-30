@@ -27,6 +27,9 @@ from django.contrib.auth.models import User
    
 ########### register here ##################################### 
 def register(request):
+    username = request.session.get("username")
+    if username != None:
+        return redirect('index')
     if request.method == 'POST':
         is_provider = ('orgname' in request.POST)
         if is_provider:
@@ -61,10 +64,11 @@ def register(request):
    
 ################ login forms################################################### 
 def Login(request):
+    username = request.session.get("username")
+    if username != None:
+        return redirect('index')
     if request.method == 'POST':
-   
         # AuthenticationForm_can_also_be_used__
-   
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username = username, password = password)
@@ -91,7 +95,8 @@ def view_profile(request, username_):
             user_offers.append(offer)
 
     context = {
-        'myuser': my_user_to_show,
+        'user_toshow' : user_of_interest,
+        'myuser_toshow': my_user_to_show,
         'myoffers' : user_offers,
     }
 

@@ -13,10 +13,10 @@ def new_offer(request):
     # Check if user is logged in as provider
     username = request.session.get("username")
     user = User.objects.get(username=username)
-    my_user = MyUser.objects.get(user=user)
+    myuser = MyUser.objects.get(user=user)
 
-    if not my_user.is_provider:
-        return render(request, 'home/index.html', {'title':'پیشیاب', 'my_user':my_user})
+    if not myuser.is_provider:
+        return render(request, 'home/index.html', {'title':'پیشیاب', 'myuser':myuser})
 
     if request.method == 'POST':
         form = NewOfferForm(request.POST)
@@ -40,7 +40,7 @@ def new_offer(request):
             return redirect('view_offers')
     else:
         form = NewOfferForm()
-    return render(request, 'offer/new_offer.html', {'form': form, 'title':'پیشنهاد جدید'})
+    return render(request, 'offer/new_offer.html', {'form': form, 'title':'پیشنهاد جدید', 'myuser': myuser})
    
 
 
