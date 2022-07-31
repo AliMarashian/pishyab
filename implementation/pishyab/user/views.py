@@ -1,7 +1,7 @@
 import imp
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 # from django.contrib.auth.forms import AuthenticationForm
 from .forms import UserRegisterForm, UserLoginForm, ProviderRegisterForm
@@ -12,6 +12,7 @@ from django.template import Context
 from .models import MyUser
 from offer.models import Offer
 from django.contrib.auth.models import User
+
 # from django.conf import settings
 # User = settings.AUTH_USER_MODEL
    
@@ -104,3 +105,17 @@ def view_profile(request, username_):
 
     print("*" * 100)
     return render(request, "user/profile.html", context)
+
+def logout_view(request):
+    logout(request)
+    all_offers = Offer.objects.all().values()
+
+    for offer in all_offers:
+        initial_user = User.objects.get(id = offer['user_id'])
+        my_user = MyUser.objects.get(user = initial_user)
+        offer['orgname'] = my_user.orgname
+        offer['username'] = initial_user.username
+
+    # return render(request, "offer/view_offers.html", context)
+    myuser = None
+    return render(request, 'home/index.html', {'title':'پیشیاب', 'myuser':myuser, 'myoffers': all_offers})
