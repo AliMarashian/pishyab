@@ -29,6 +29,9 @@ def register(request):
     username = request.session.get("username")
     if username != None:
         return redirect('index')
+
+    form_provider = None
+    form_user = None
     if request.method == 'POST':
         is_provider = ('orgname' in request.POST)
         if is_provider:
