@@ -93,9 +93,10 @@ function init(){
 
           <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
-              {% if myuser.is_provider %}
+              {% if user.is_provider %}
               <li><a href="{% url 'new_offer' %}">  پیشنهاد جدید &nbsp; <span class="glyphicon glyphicon-plus"></span> </a></li>
               {% endif %}
+              <li><a href="{% url 'edit_view' user.username %}"> ویرایش پروفایل &nbsp; <span class="glyphicon glyphicon-edit"></span> </a></li>
               <li><a href="{% url 'view_profile' user.username %}">  پروفایل من &nbsp; <span class="glyphicon glyphicon-user"></span> </a></li>
               <li><a href="{% url 'logout' %}"> خروج &nbsp; <span class="glyphicon glyphicon-log-out"></span> </a></li>
             {% else %}

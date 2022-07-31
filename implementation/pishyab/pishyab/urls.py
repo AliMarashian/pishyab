@@ -34,4 +34,5 @@ urlpatterns = [
     path('search/<str:input_>', offer_view.search_offer, name ='search_offer'),
     # path('view_offers/', offer_view.view_offers, name ='view_offers'),
     path('profile/<str:username_>', user_view.view_profile, name ='view_profile'),
+    path('edit/<str:username_>', user_view.edit_view, name ='edit_view'),
 ]
