@@ -5,6 +5,7 @@ from .forms import NewOfferForm
 from django.contrib import messages
 from .models import Offer
 from django.contrib.auth.models import User
+from django.db.models import Q
 
 
 
@@ -68,7 +69,8 @@ def view_offers(request):
 
 def search_offer(request, input_):
     username = request.session.get("username")
-    all_offers = Offer.objects.all().values()
+    all_offers = Offer.objects.filter(Q(title__icontains=input_) | Q(description__icontains=input_)).values()
+    print(all_offers)
 
     for offer in all_offers:
         initial_user = User.objects.get(id = offer['user_id'])

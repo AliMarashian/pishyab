@@ -8,7 +8,7 @@
       <div class="w3-container">
         <h3 >{{ x.title }}</h3>
         
-        <p class="w3-opacity"><a href="profile/{{x.username}}">{{ x.orgname }}</a></p>
+        <p class="w3-opacity"><a href="/profile/{{x.username}}">{{ x.orgname }}</a></p>
         <p>{{ x.description }}</p>
         <p>از {{x.start_date}}, {{x.start_time}}</p>
         <p>تا {{x.end_date}}, {{x.end_time}}</p>
@@ -17,6 +17,8 @@
       </div>
     </div>
   </div>
+{% empty %}
+<center><h1>نتیجه‌ای پیدا نشد</h1></center>
 {% endfor %}
 </div>
 {% endblock start %}
