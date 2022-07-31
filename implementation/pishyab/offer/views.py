@@ -8,13 +8,16 @@ from django.contrib.auth.models import User
 
 
 
+
 def new_offer(request):
 
     # Check if user is logged in as provider
     username = request.session.get("username")
+    if username == None:
+        return render(request, 'home/index.html', {'title':'پیشیاب'})
+
     user = User.objects.get(username=username)
     myuser = MyUser.objects.get(user=user)
-
     if not myuser.is_provider:
         return render(request, 'home/index.html', {'title':'پیشیاب', 'myuser':myuser})
 
@@ -24,7 +27,7 @@ def new_offer(request):
             cleaned_form = form.cleaned_data
             try:
                 username = request.session.get("username")
-                user = User.objects.get(pk=1)
+                user = User.objects.get(username=username)
                 print(username, user, user.email)
             except:
                 print("ERROR | New_Offer | No User")
@@ -37,7 +40,7 @@ def new_offer(request):
 
             ################################################################## 
             messages.success(request, f'پیشنهاد شما اضافه شد!')
-            return redirect('view_offers')
+            return redirect('/profile/'+username)
     else:
         form = NewOfferForm()
     return render(request, 'offer/new_offer.html', {'form': form, 'title':'پیشنهاد جدید', 'myuser': myuser})
@@ -60,3 +63,22 @@ def view_offers(request):
 
     print("*" * 100)
     return render(request, "offer/view_offers.html", context)
+
+
+
+def search_offer(request, input_):
+    username = request.session.get("username")
+    all_offers = Offer.objects.all().values()
+
+    for offer in all_offers:
+        initial_user = User.objects.get(id = offer['user_id'])
+        my_user = MyUser.objects.get(user = initial_user)
+        offer['orgname'] = my_user.orgname
+        offer['username'] = initial_user.username
+
+    # return render(request, "offer/view_offers.html", context)
+    myuser = None
+    if username != None:
+        user = User.objects.get(username=username)
+        myuser = MyUser.objects.get(user=user)
+    return render(request, 'offer/search.html', {'title':'پیشیاب', 'myuser':myuser, 'myoffers': all_offers})

@@ -48,6 +48,26 @@
 
 </head>
 
+
+<script>
+document.addEventListener('DOMContentLoaded', init, false);
+function init(){
+    var input = document.getElementById("site-search");
+
+    // Execute a function when the user presses a key on the keyboard
+    input.addEventListener("keypress", function(event) {
+      // If the user presses the "Enter" key on the keyboard
+      if (event.key === "Enter") {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        window.location.href = '/search/'+input.value;
+      }
+    });
+};
+
+</script>
+
 <body class="container-fluid">
 
 
@@ -66,8 +86,12 @@
           <a class="navbar-brand" class="styleheader" href="{% url "index" %}">صفحه اصلی</a>
         </div>
         <div class="collapse navbar-collapse" id="mainNavBar">
-          <ul class="nav navbar-nav navbar-right">
 
+          <ul class="nav navbar-nav navbar-left">
+            <li style="margin-top:2.5%;"> <input dir="rtl" placeholder="آگهی مورد نظرتان را جستجو کنید..." type="search" id="site-search" style="height:40px;width:200%;"> </li>
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated %}
               {% if myuser.is_provider %}
               <li><a href="{% url 'new_offer' %}">  پیشنهاد جدید &nbsp; <span class="glyphicon glyphicon-plus"></span> </a></li>
@@ -123,13 +147,13 @@
     </div> -->
   <h3 class="w3-center"> پیشنهادهای ویژه</h3>
   {% for x in myoffers %}
-  <div class="w3-col l3 m6 w3-margin-bottom" dir = 'rtl'>
+  <div class="w3-col l3 m6 w3-margin-bottom" dir = 'rtl' style="margin-right:10px">
     <div class="w3-card">
       <img src="https://www.citypng.com/public/uploads/preview/warranty-ribbon-blue-icon-logo-sign-label-badge-png-11635941164yp8i70hmcb.png" alt="{{x.title}}" style="width:100%">
       <div class="w3-container">
         <h3 >{{ x.title }}</h3>
         
-        <p class="w3-opacity"><a href="profile/{{x.username}}">{{ x.orgname }}</p>
+        <p class="w3-opacity"><a href="profile/{{x.username}}">{{ x.orgname }}</a></p>
         <p>{{ x.description }}</p>
         <p>از {{x.start_date}}, {{x.start_time}}</p>
         <p>تا {{x.end_date}}, {{x.end_time}}</p>
