@@ -90,13 +90,18 @@ def view_profile(request, username_):
     user_of_interest = User.objects.get(username = username_)
     my_user_to_show = MyUser.objects.get(user = user_of_interest)
     
-    my_offers = Offer.objects.all().values()
+    user_offers = Offer.objects.filter(user=user_of_interest).values()
     fav_offers = my_user_to_show.fav_offers.all().values()
-    user_offers = []
 
-    for offer in my_offers:
-        if User.objects.get(id = offer['user_id']).username == username_:
-            user_offers.append(offer)
+    username = request.session["username"]
+    myuser = None
+    if username != None:
+        user = User.objects.get(username=username)
+        myuser = MyUser.objects.get(user=user)
+        for offer in user_offers:
+            offer['fav'] = myuser.fav_offers.filter(id=offer['id']).exists()
+        for offer in fav_offers:
+            offer['fav'] = myuser.fav_offers.filter(id=offer['id']).exists()
 
     context = {
         'user_toshow' : user_of_interest,

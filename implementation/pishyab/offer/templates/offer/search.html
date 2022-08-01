@@ -1,13 +1,21 @@
 {% extends "home/index.html" %}
 {% block start %}
 <div class="w3-container w3-light-grey" style="padding:12px 16px; margin-top:50px;" id="team" dir="rtl">
-{% for x in myoffers %}
-  <div class="w3-col l3 m6 w3-margin-bottom" dir = 'rtl' style="margin-right:10px;">
+  {% for x in myoffers %}
+  <div class="w3-col l3 m6 w3-margin-bottom" dir = 'rtl' style="margin-right:10px">
     <div class="w3-card">
-      <img src="https://www.citypng.com/public/uploads/preview/warranty-ribbon-blue-icon-logo-sign-label-badge-png-11635941164yp8i70hmcb.png" alt="{{x.title}}" style="width:100%">
+      <div style="position: relative;text-align: center;">
+        {% if user.is_authenticated %}
+          {% if x.fav %}
+          <a href="{% url 'fav_offer' x.id %}" id="fav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;"><span class="glyphicon glyphicon-star"></span></a>
+          {% else %}
+          <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;"><span class="glyphicon glyphicon-star-empty"></span></a>
+          {% endif %}
+        {% endif %}
+        <img src="https://www.citypng.com/public/uploads/preview/warranty-ribbon-blue-icon-logo-sign-label-badge-png-11635941164yp8i70hmcb.png" alt="{{x.title}}" style="width:100%">
+      </div>
       <div class="w3-container">
-        <h3 >{{ x.title }}</h3>
-        
+        <h3>{{ x.title }}</h3> 
         <p class="w3-opacity"><a href="/profile/{{x.username}}">{{ x.orgname }}</a></p>
         <p>{{ x.description }}</p>
         <p>از {{x.start_date}}, {{x.start_time}}</p>
