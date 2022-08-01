@@ -138,7 +138,7 @@ function init(){
           {% endif %}
         </div>
         <div class="w3-col m6">
-          <img class="w3-image w3-round-large" src="https://haftc.ir/wp-content/uploads/2019/10/168436484319841368143-1920x960.jpg" alt="Buildings" width="700" height="394">
+          <img class="w3-image w3-round-large" src="{% static 'media/discount.png' %}" alt="تخفیف ویژه" width="700" height="394">
         </div>
       </div>
     </div>
@@ -158,10 +158,11 @@ function init(){
           <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;"><span class="glyphicon glyphicon-star-empty"></span></a>
           {% endif %}
         {% endif %}
-        <img src="https://www.citypng.com/public/uploads/preview/warranty-ribbon-blue-icon-logo-sign-label-badge-png-11635941164yp8i70hmcb.png" alt="{{x.title}}" style="width:100%">
+      <img src="https://www.citypng.com/public/uploads/preview/warranty-ribbon-blue-icon-logo-sign-label-badge-png-11635941164yp8i70hmcb.png" alt="{{x.title}}" style="width:100%">
       </div>
       <div class="w3-container">
-        <h3>{{ x.title }}</h3> 
+        <h3 >{{ x.title }}</h3>
+        
         <p class="w3-opacity"><a href="/profile/{{x.username}}">{{ x.orgname }}</a></p>
         <p>{{ x.description }}</p>
         <p>از {{x.start_date}}, {{x.start_time}}</p>

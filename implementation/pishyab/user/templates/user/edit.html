@@ -6,7 +6,21 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
+
 {% block start %}
+
+<script>
+  function popUpFunction() {
+    var txt;
+    if (confirm("آیا مطمئنید مایل به حذف پروفایل هستید؟")) {
+      txt = "del";
+      window.location.replace("../delete/{{myuser.user.username}}");
+      print('hey yo what up')
+    } else {
+      pass
+    }
+  }
+</script>
 
 <div class="content-section col-md-8 col-md-offset-2" dir="rtl" style="border: 1px solid black; margin-top:4%; margin-bottom:4%; padding:4% 10% 2% 10%; border-radius:1%;">
   
@@ -20,10 +34,12 @@
 
     <center>
       <button style="background: black; padding:2%; font-size: 2rem; color:white;" class="btn btn-outline-info" type="submit"><span class="glyphicon glyphicon-check"></span> &nbsp; ذخیره</button>
+      <!-- <button style="background: red; padding:2%; font-size: 2rem; color:white;" class="btn btn-outline-info" type="button" style="display:inline-block;"><span class="glyphicon glyphicon-check"></span> &nbsp; حذف پروفایل</button> -->
     </center>
     <br />
     <center> 
       <sub><a href="../profile/{{myuser.user.username}}" style="text-decoration: none; color: blue; padding:3%; cursor:pointer;font-size: 150%;">انصراف</a></sub>
+      <sub onclick = "popUpFunction()" style="text-decoration: none; color: red; padding:3%; cursor:pointer;font-size: 120%;" type="button">حذف پروفایل</sub>
     </center>
   </form>
 </div>

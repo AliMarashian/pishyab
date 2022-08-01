@@ -36,4 +36,5 @@ urlpatterns = [
     path('profile/<str:username_>', user_view.view_profile, name ='view_profile'),
     path('fav_offer/<int:offer_id>', user_view.fav_offer, name="fav_offer"),
     path('edit/<str:username_>', user_view.edit_view, name ='edit_view'),
+    path('delete/<str:username_>', user_view.delete_view, name ='delete_view'),
 ]

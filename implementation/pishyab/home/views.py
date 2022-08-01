@@ -18,7 +18,7 @@ def index(request):
 
     # return render(request, "offer/view_offers.html", context)
     myuser = None
-    if username != None:
+    if username != None and User.objects.filter(username = username).exists():
         user = User.objects.get(username=username)
         myuser = MyUser.objects.get(user=user)
         for offer in all_offers:

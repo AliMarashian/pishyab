@@ -30,7 +30,7 @@ from django.http import HttpResponseRedirect
 ########### register here ##################################### 
 def register(request):
     username = request.session.get("username")
-    if username != None:
+    if username != None and User.objects.filter(username = username).exists():
         return redirect('index')
     form_provider = ProviderRegisterForm(request.POST or None)
     form_user = UserRegisterForm(request.POST or None)
@@ -67,8 +67,9 @@ def register(request):
    
 ################ login forms################################################### 
 def Login(request):
+    print("man mikham biam too")
     username = request.session.get("username")
-    if username != None:
+    if username != None and User.objects.filter(username = username).exists():
         return redirect('index')
     if request.method == 'POST':
         # AuthenticationForm_can_also_be_used__
@@ -95,7 +96,7 @@ def view_profile(request, username_):
 
     username = request.session["username"]
     myuser = None
-    if username != None:
+    if username != None and User.objects.filter(username = username).exists():
         user = User.objects.get(username=username)
         myuser = MyUser.objects.get(user=user)
         for offer in user_offers:
@@ -127,6 +128,17 @@ def logout_view(request):
     myuser = None
     return render(request, 'home/index.html', {'title':'پیشیاب', 'myuser':myuser, 'myoffers': all_offers})
 
+def delete_view(request, username_):
+    username = request.session.get("username")
+    if username_ == username:   
+        print(username + " is going to be deleted baby")
+        user_ = User.objects.get(username = username_)
+        myuser = MyUser.objects.get(user = user_)
+        myuser.delete()
+        user_.delete()
+        return redirect('index')
+    else:
+        return redirect('index')
 
 def edit_view(request, username_):
     username = request.session.get("username")
@@ -148,8 +160,6 @@ def edit_view(request, username_):
                 user_ = User.objects.get(username = username_)
                 print(user_)
                 myuser = MyUser.objects.get(user = user_)
-                # form.save()
-                print('heyyyyyy')
                 cleaned_form = form.cleaned_data
                 if form.cleaned_data.get('email') != "":
                     user_.email = form.cleaned_data.get('email')
