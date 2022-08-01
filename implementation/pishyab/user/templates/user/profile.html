@@ -83,7 +83,7 @@
         </div>
     </div>
     <!-- </div> -->
-    
+    {% if fav_offers.all %}
     <div class="w3-row-padding" style="margin-top:64px;">
     <h3 class="w3-center"> پیشنهاد های مورد علاقه</h3>
     {% for x in fav_offers %}
@@ -104,6 +104,7 @@
       </div>
     {% endfor %}
     </div>
+    {% endif %}
 
     
     <div class="w3-row-padding" style="margin-top:64px;">
