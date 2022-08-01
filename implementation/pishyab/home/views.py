@@ -21,4 +21,6 @@ def index(request):
     if username != None:
         user = User.objects.get(username=username)
         myuser = MyUser.objects.get(user=user)
+        for offer in all_offers:
+            offer['fav'] = myuser.fav_offers.filter(id=offer['id']).exists()
     return render(request, 'home/index.html', {'title':'پیشیاب', 'myuser':myuser, 'myoffers': all_offers})

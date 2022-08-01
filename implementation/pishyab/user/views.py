@@ -13,6 +13,7 @@ from django.template import Context
 from .models import MyUser
 from offer.models import Offer
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 
 # from django.conf import settings
 # User = settings.AUTH_USER_MODEL
@@ -90,6 +91,7 @@ def view_profile(request, username_):
     my_user_to_show = MyUser.objects.get(user = user_of_interest)
     
     my_offers = Offer.objects.all().values()
+    fav_offers = my_user_to_show.fav_offers.all().values()
     user_offers = []
 
     for offer in my_offers:
@@ -100,6 +102,7 @@ def view_profile(request, username_):
         'user_toshow' : user_of_interest,
         'myuser_toshow': my_user_to_show,
         'myoffers' : user_offers,
+        'fav_offers' : fav_offers,
     }
 
     # print("*" * 100)
@@ -187,3 +190,16 @@ def edit_view(request, username_):
 
     else:
         return redirect('index')
+
+@ login_required
+def fav_offer(request, offer_id):
+    offer = Offer.objects.get(id=offer_id)   #TODO: try catch
+    username = request.session["username"]
+    user = User.objects.get(username=username)
+    myuser = MyUser.objects.get(user=user)
+    if myuser.fav_offers.filter(id=offer_id).exists():
+        myuser.fav_offers.remove(offer)
+    else:
+        myuser.fav_offers.add(offer)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
