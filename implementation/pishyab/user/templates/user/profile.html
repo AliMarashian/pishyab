@@ -87,7 +87,7 @@
     <div class="w3-row-padding" style="margin-top:64px;">
     <h3 class="w3-center"> پیشنهاد های مورد علاقه</h3>
     {% for x in fav_offers %}
-  <div class="w3-col l3 m6 w3-margin-bottom" dir = 'rtl' style="margin-right:10px">
+  <div class="w3-col m6 w3-margin-bottom" dir = 'rtl' style="margin-right:10px; width:24.125%;">
     <div class="w3-card">
       <div style="position: relative;text-align: center;">
         {% if user.is_authenticated %}
@@ -102,7 +102,11 @@
       <div class="w3-container">
         <h3>{{ x.title }}</h3> 
         <p class="w3-opacity"><a href="/profile/{{x.username}}">{{ x.orgname }}</a></p>
-        <p>{{ x.description }}</p>
+        {% if x.description == "" or x.description == None %}
+          <p > hi, hello </p>
+        {% else %}
+          <p >{{x.description}}</p>
+        {% endif %}
         <p>از {{x.start_date}}, {{x.start_time}}</p>
         <p>تا {{x.end_date}}, {{x.end_time}}</p>
         <p>قیمت اصلی: {{x.price}}</p>
@@ -119,7 +123,7 @@
     <div class="w3-row-padding" style="margin-top:64px;">
     <h3 class="w3-center"> پیشنهاد های ویژه</h3>
     {% for x in myoffers %}
-  <div class="w3-col l3 m6 w3-margin-bottom" dir = 'rtl' style="margin-right:10px">
+  <div class="w3-col m6 w3-margin-bottom" dir = 'rtl' style="margin-right:10px; width:24.125%;">
     <div class="w3-card">
       <div style="position: relative;text-align: center;">
         {% if user.is_authenticated %}
@@ -134,7 +138,11 @@
       <div class="w3-container">
         <h3>{{ x.title }}</h3> 
         <p class="w3-opacity"><a href="/profile/{{x.username}}">{{ x.orgname }}</a></p>
-        <p>{{ x.description }}</p>
+        {% if x.description == "" or x.description == None %}
+          <p style="color:white">  hii</p>
+        {% else %}
+          <p >{{x.description}}</p>
+        {% endif %}
         <p>از {{x.start_date}}, {{x.start_time}}</p>
         <p>تا {{x.end_date}}, {{x.end_time}}</p>
         <p>قیمت اصلی: {{x.price}}</p>

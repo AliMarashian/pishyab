@@ -147,8 +147,9 @@ function init(){
       <img src="https://haftc.ir/wp-content/uploads/2019/10/168436484319841368143-1920x960.jpg" style="width:100%;">
     </div> -->
   <h3 class="w3-center"> پیشنهادهای ویژه</h3>
+  <center>
   {% for x in myoffers %}
-  <div class="w3-col l3 m6 w3-margin-bottom" dir = 'rtl' style="margin-right:10px">
+  <div class="w3-col m6 w3-margin-bottom" dir = 'rtl' style="margin-right:10px; width:24.125%;">
     <div class="w3-card">
       <div style="position: relative;text-align: center;">
         {% if user.is_authenticated %}
@@ -164,7 +165,11 @@ function init(){
         <h3 >{{ x.title }}</h3>
         
         <p class="w3-opacity"><a href="/profile/{{x.username}}">{{ x.orgname }}</a></p>
-        <p>{{ x.description }}</p>
+        {% if x.description == "" or x.description == None %}
+          <p style="color:white">  hii</p>
+        {% else %}
+          <p >{{x.description}}</p>
+        {% endif %}
         <p>از {{x.start_date}}, {{x.start_time}}</p>
         <p>تا {{x.end_date}}, {{x.end_time}}</p>
         <p>قیمت اصلی: {{x.price}}</p>
@@ -173,6 +178,7 @@ function init(){
     </div>
   </div>
   {% endfor %}
+  </center>
   </div>
   {% endblock %}
 </body>
