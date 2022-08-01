@@ -14,3 +14,4 @@ class Offer(models.Model):
     end_time = models.TimeField()
     price = models.IntegerField(null=True)
     discount = models.IntegerField(null=True)
+    priority = models.IntegerField(default=1)
