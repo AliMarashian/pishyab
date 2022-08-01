@@ -31,6 +31,7 @@ urlpatterns = [
     path('logout/', user_view.logout_view, name ='logout'),
     path('register/', user_view.register, name ='register'),
     path('new_offer/', offer_view.new_offer, name ='new_offer'),
+    path('set_offer_priority/<int:offer_id>', offer_view.set_priority, name ='set_priority'),
     path('search/<str:input_>', offer_view.search_offer, name ='search_offer'),
     # path('view_offers/', offer_view.view_offers, name ='view_offers'),
     path('profile/<str:username_>', user_view.view_profile, name ='view_profile'),

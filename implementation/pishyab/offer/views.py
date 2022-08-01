@@ -39,9 +39,7 @@ def new_offer(request):
                 end_date=cleaned_form.get("end_date"), end_time=cleaned_form.get("end_time"), price=cleaned_form.get("price"), discount=cleaned_form.get("discount"))
             new_offer.save()
 
-            ################################################################## 
-            messages.success(request, f'پیشنهاد شما اضافه شد!')
-            return redirect('/profile/'+username)
+            return redirect('/set_offer_priority/'+str(new_offer.id))
     else:
         form = NewOfferForm()
     return render(request, 'offer/new_offer.html', {'form': form, 'title':'پیشنهاد جدید', 'myuser': myuser})
@@ -86,3 +84,20 @@ def search_offer(request, input_):
         for offer in all_offers:
             offer['fav'] = myuser.fav_offers.filter(id=offer['id']).exists()
     return render(request, 'offer/search.html', {'title':'پیشیاب', 'myuser':myuser, 'myoffers': all_offers})
+
+
+def set_priority(request, offer_id):
+    username = request.session.get("username")
+    offer = Offer.objects.get(id=offer_id)
+    provider = offer.user
+    if username != provider.username:
+        return redirect('index')
+
+    if request.method == 'POST':
+        priority = request.POST['prio_select']
+        offer.priority = priority
+        offer.save()
+        messages.success(request, f'پیشنهاد شما اضافه شد!')
+        return redirect('/profile/'+username)
+
+    return render(request, 'offer/set_priority.html', {'title':'سطح پیشنهاد'})
