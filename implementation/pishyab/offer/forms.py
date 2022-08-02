@@ -16,6 +16,7 @@ class NewOfferForm(forms.Form):
     end_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), label="ساعت پایان بازه پیشنهاد")
     price = forms.IntegerField(label="قیمت", required=False, validators=[MinValueValidator(0)], widget=forms.NumberInput(attrs={'placeholder': 'به ریال'}))
     discount = forms.IntegerField(label="درصد تخفیف", required=False, validators=[MaxValueValidator(100), MinValueValidator(0)])
+    pic_link = forms.CharField(max_length=400, label='لینک عکس آپلود شده', required=False)
     # email = forms.EmailField(label="ایمیل")
     # phone_no = forms.CharField(max_length = 20, label="شماره تلفن")
     # username = forms.CharField(max_length = 20, label="نام‌کاربری")

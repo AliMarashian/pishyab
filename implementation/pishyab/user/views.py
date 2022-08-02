@@ -44,7 +44,12 @@ def register(request):
             form.save()
             cleaned_form = form.cleaned_data
             user = User.objects.get(username=cleaned_form.get("username"))
-            my_user = MyUser(user=user, is_provider=is_provider, phone_no=cleaned_form.get("phone_no"), orgname=cleaned_form.get("orgname"), address = cleaned_form.get('address'), description = cleaned_form.get('description'))
+            ################## TODO
+            if is_provider:
+                is_verified = True
+            else:
+                is_verified = True
+            my_user = MyUser(user=user, is_provider=is_provider, phone_no=cleaned_form.get("phone_no"), pic_link=cleaned_form.get("pic_link"), orgname=cleaned_form.get("orgname"), address=cleaned_form.get('address'), description=cleaned_form.get('description'), license_link=cleaned_form.get('license_link'), is_verified=is_verified)
             my_user.save()
             username = form.cleaned_data.get('username')
             email = form.cleaned_data.get('email')
@@ -55,7 +60,7 @@ def register(request):
             html_content = htmly.render(d)
             msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
             msg.attach_alternative(html_content, "text/html")
-            msg.send()
+            # msg.send()
             ################################################################## 
             messages.success(request, f'حساب کاربری شما ساخته شد!')
             return redirect('login')
@@ -94,7 +99,7 @@ def view_profile(request, username_):
     user_offers = Offer.objects.filter(user=user_of_interest).values()
     fav_offers = my_user_to_show.fav_offers.all().values()
 
-    username = request.session["username"]
+    username = request.session.get("username")
     myuser = None
     if username != None and User.objects.filter(username = username).exists():
         user = User.objects.get(username=username)

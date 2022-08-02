@@ -7,12 +7,12 @@
       <div style="position: relative;text-align: center;">
         {% if user.is_authenticated %}
           {% if x.fav %}
-          <a href="{% url 'fav_offer' x.id %}" id="fav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;"><span class="glyphicon glyphicon-star"></span></a>
+          <a href="{% url 'fav_offer' x.id %}" id="fav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star"></span></a>
           {% else %}
-          <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;"><span class="glyphicon glyphicon-star-empty"></span></a>
+          <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star-empty"></span></a>
           {% endif %}
         {% endif %}
-        <img src="https://www.citypng.com/public/uploads/preview/warranty-ribbon-blue-icon-logo-sign-label-badge-png-11635941164yp8i70hmcb.png" alt="{{x.title}}" style="width:100%">
+        <img src="{{x.pic_link}}" alt="{{x.title}}" style="width:100%">
       </div>
       <div class="w3-container">
         <h3>{{ x.title }}</h3> 

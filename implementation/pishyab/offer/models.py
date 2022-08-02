@@ -15,3 +15,4 @@ class Offer(models.Model):
     price = models.IntegerField(null=True)
     discount = models.IntegerField(null=True)
     priority = models.IntegerField(default=1)
+    pic_link = models.CharField(max_length = 400, default="https://www.citypng.com/public/uploads/preview/warranty-ribbon-blue-icon-logo-sign-label-badge-png-11635941164yp8i70hmcb.png")

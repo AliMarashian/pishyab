@@ -29,14 +29,12 @@ def new_offer(request):
             try:
                 username = request.session.get("username")
                 user = User.objects.get(username=username)
-                print(username, user, user.email)
             except:
                 print("ERROR | New_Offer | No User")
                 return render(request, 'offer/new_offer.html', {'form': form, 'title':'پیشنهاد جدید'})
 
-            print(user)
             new_offer = Offer(user=user, title=cleaned_form.get("title"), description=cleaned_form.get("description"), start_date=cleaned_form.get("start_date"), start_time=cleaned_form.get("start_time"),
-                end_date=cleaned_form.get("end_date"), end_time=cleaned_form.get("end_time"), price=cleaned_form.get("price"), discount=cleaned_form.get("discount"))
+                end_date=cleaned_form.get("end_date"), end_time=cleaned_form.get("end_time"), price=cleaned_form.get("price"), discount=cleaned_form.get("discount"), pic_link=cleaned_form.get("pic_link"))
             new_offer.save()
 
             return redirect('/set_offer_priority/'+str(new_offer.id))

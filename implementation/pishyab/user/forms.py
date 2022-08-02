@@ -16,6 +16,7 @@ class UserLoginForm(AuthenticationForm):
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(label="ایمیل")
     phone_no = forms.CharField(max_length = 20, label="شماره تلفن")
+    pic_link = forms.CharField(max_length = 400, label="لینک عکس پروفایل آپلود شده", required=False)
     username = forms.CharField(max_length = 20, label="نام‌کاربری")
     password1 = forms.CharField(max_length = 20, label="رمز عبور", widget=forms.PasswordInput())
     password2 = forms.CharField(max_length = 20, label="تکرار رمز عبور", widget=forms.PasswordInput())
@@ -27,12 +28,14 @@ class UserRegisterForm(UserCreationForm):
 class ProviderRegisterForm(UserCreationForm):
     email = forms.EmailField(label="ایمیل")
     phone_no = forms.CharField(max_length = 20, label="شماره تلفن")
+    pic_link = forms.CharField(max_length = 400, label="لینک عکس پروفایل آپلود شده", required=False)
     username = forms.CharField(max_length = 20, label="نام‌کاربری")
     password1 = forms.CharField(max_length = 20, label="رمز عبور", widget=forms.PasswordInput())
     password2 = forms.CharField(max_length = 20, label="تکرار رمز عبور", widget=forms.PasswordInput())
     orgname = forms.CharField(max_length = 50, label="نام سازمان")
     address = forms.CharField(max_length = 100, label="آدرس سازمان")
     description = forms.CharField(max_length = 200, widget=forms.Textarea, label="توضیحات سازمان")
+    license_link = forms.CharField(max_length = 400, label="لینک مجوز کسب آپلود شده")
     class Meta:
         model = User
         fields = ['username', 'email', 'password1']
