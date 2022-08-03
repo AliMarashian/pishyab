@@ -9,7 +9,18 @@
         <!-- style="position:absolute;top:0;right:0;" -->
         <div class="w3-col l4 m6 w3-margin-bottom" style="flex-grow: 1;">
             <div class="w3-card">
-                <img src="{{myuser_toshow.pic_link}}" alt="{{x.title}}" style="width:100%">
+                <div style="position: relative;text-align: center;">
+                  {% if user.is_authenticated %}
+                    {% if myuser_toshow.is_provider %}
+                    {% if is_fav %}
+                    <a href="{% url 'fav_provider' user_toshow.id %}" id="fav-profile" style="position:absolute; top:8px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star"></span></a>
+                    {% else %}
+                    <a href="{% url 'fav_provider' user_toshow.id %}" id="notfav-profile" style="position:absolute; top:8px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star-empty"></span></a>
+                    {% endif %}
+                    {% endif %}
+                  {% endif %}
+                  <img src="{{myuser_toshow.pic_link}}" alt="{{x.title}}" style="width:100%">
+                </div>
                 <div class="w3-container">
                               
                 {% if myuser_toshow.is_provider %}
@@ -84,6 +95,21 @@
                     </div>
                 </div>
                 <hr>
+                {% endif %}
+
+                {% if fav_providers.all %}
+                <div class="w3-row" style="display: flex;">
+                  <div  style="flex-grow:1;">
+                    <h6 style="align-items:center;">سرویس‌دهنده‌های مورد علاقه:</h6>
+                  </div>
+                  <div  style="width: 80%;">
+                    <h6 style="align-items:center;">
+                    {% for x in fav_providers %}
+                    <a href="{% url 'view_profile' x.username %}">{{x.orgname}}</a>  &nbsp;
+                    {% endfor %}
+                    </h6>
+                  </div>
+                </div>
                 {% endif %}
         
                 <!-- <div class="w3-row">

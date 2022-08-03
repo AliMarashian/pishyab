@@ -25,18 +25,19 @@ urlpatterns = [
     #path('home/', include('home.urls')),
     #path('', include('home.urls')),
     path('admin/', admin.site.urls),
-    ##### user related path########################## 
+    ##### user related path##########################
     path('', include('home.urls')),
     path('login/', user_view.Login, name ='login'),
     path('logout/', user_view.logout_view, name ='logout'),
     path('register/', user_view.register, name ='register'),
     path('new_offer/', offer_view.new_offer, name ='new_offer'),
-    path('set_offer_priority/<int:offer_id>', offer_view.set_priority, name ='set_priority'), 
+    path('set_offer_priority/<int:offer_id>', offer_view.set_priority, name ='set_priority'),
     path('search/<str:input_>', offer_view.search_offer, name ='search_offer'),
     path('view_offers/', offer_view.view_offers, name ='view_offers'),
     path('profile/<str:username_>', user_view.view_profile, name ='view_profile'),
     path('fav_offer/<int:offer_id>', user_view.fav_offer, name="fav_offer"),
     path('edit_offer/<int:offer_id>', offer_view.edit_offer, name="edit_offer"),
+    path('fav_provider/<int:user_id>', user_view.fav_provider, name="fav_provider"),
     path('edit/<str:username_>', user_view.edit_view, name ='edit_view'),
     path('delete/<str:username_>', user_view.delete_view, name ='delete_view'),
 ]
