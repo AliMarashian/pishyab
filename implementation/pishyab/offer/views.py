@@ -147,5 +147,16 @@ def edit_offer(request, offer_id):
 
         form = NewOfferForm(initial = {'user':old_offer.user, 'title':old_offer.title, 'description':old_offer.description, 'start_date': old_offer.start_date, 'start_time':old_offer.start_time,
                 'end_date':old_offer.end_date, 'end_time':old_offer.end_time, 'price':old_offer.price, 'discount':old_offer.discount, 'pic_link':old_offer.pic_link})
-    return render(request, 'offer/edit_offer.html', {'form': form, 'title':'ویرایش پیشنهاد', 'myuser': myuser})
+    return render(request, 'offer/edit_offer.html', {'form': form, 'title':'ویرایش پیشنهاد', 'myuser': myuser, 'offer_id': offer_id})
+
+
+def delete_offer(request, offer_id):
+    username = request.session.get("username")
+    offer = Offer.objects.get(id = offer_id)
+    if username == offer.user.username:   
+        print("offer is going to be deleted baby")
+        offer.delete()
+        return redirect('/profile/' + username)
+    else:
+        return redirect('index')
    

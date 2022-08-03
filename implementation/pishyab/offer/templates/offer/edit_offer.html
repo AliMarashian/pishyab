@@ -8,7 +8,17 @@
 
 
 {% block start %}
-
+<script>
+  function popUpFunction(id) {
+    var txt;
+    if (confirm("آیا مطمئنید می‌خواهید پیشنهادتان را حذف کنید؟")) {
+      window.location.replace("../delete_offer/{{offer_id}}");
+      print('hey yo what up')
+    } else {
+      pass
+    }
+  }
+</script>
 
 <div class="content-section col-md-8 col-md-offset-2" dir="rtl" style="border: 1px solid black; margin-top:4%; margin-bottom:4%; padding:4% 10% 2% 10%; border-radius:1%;">
   
