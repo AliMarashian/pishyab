@@ -9,6 +9,7 @@ class MyUser(models.Model):
     phone_no = models.CharField(max_length = 20)
     pic_link = models.CharField(max_length = 400, default="https://www.citypng.com/public/uploads/preview/warranty-ribbon-blue-icon-logo-sign-label-badge-png-11635941164yp8i70hmcb.png")
     fav_offers = models.ManyToManyField(Offer)
+    fav_providers = models.ManyToManyField("self", blank=True, symmetrical=False)
 
     orgname = models.CharField(max_length = 50, null=True)
     address = models.CharField(max_length = 100, null=True)

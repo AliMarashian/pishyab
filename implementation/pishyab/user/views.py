@@ -98,9 +98,13 @@ def view_profile(request, username_):
     
     user_offers = Offer.objects.filter(user=user_of_interest).values()
     fav_offers = my_user_to_show.fav_offers.all().values()
+    fav_providers = my_user_to_show.fav_providers.all().values()
+    for provider in fav_providers:
+        provider["username"] = User.objects.get(id=provider["user_id"]).username
 
     username = request.session.get("username")
     myuser = None
+    is_fav = False
     if username != None and User.objects.filter(username = username).exists():
         user = User.objects.get(username=username)
         myuser = MyUser.objects.get(user=user)
@@ -108,12 +112,15 @@ def view_profile(request, username_):
             offer['fav'] = myuser.fav_offers.filter(id=offer['id']).exists()
         for offer in fav_offers:
             offer['fav'] = myuser.fav_offers.filter(id=offer['id']).exists()
+        is_fav = myuser.fav_providers.filter(user=user_of_interest).exists()
 
     context = {
         'user_toshow' : user_of_interest,
         'myuser_toshow': my_user_to_show,
         'myoffers' : user_offers,
         'fav_offers' : fav_offers,
+        'fav_providers' : fav_providers,
+        'is_fav' : is_fav
     }
 
     # print("*" * 100)
@@ -214,12 +221,27 @@ def edit_view(request, username_):
 @ login_required
 def fav_offer(request, offer_id):
     offer = Offer.objects.get(id=offer_id)   #TODO: try catch
-    username = request.session["username"]
+    username = request.session.get("username")
     user = User.objects.get(username=username)
     myuser = MyUser.objects.get(user=user)
     if myuser.fav_offers.filter(id=offer_id).exists():
         myuser.fav_offers.remove(offer)
     else:
         myuser.fav_offers.add(offer)
+    return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+@ login_required
+def fav_provider(request, user_id):
+    target_user = User.objects.get(id=user_id)   #TODO: try catch
+    target_myuser = MyUser.objects.get(user=target_user)
+    username = request.session.get("username")
+    user = User.objects.get(username=username)
+    myuser = MyUser.objects.get(user=user)
+    print(myuser.fav_providers.all())
+    if myuser.fav_providers.filter(user=target_user).exists():
+        myuser.fav_providers.remove(target_myuser)
+    else:
+        myuser.fav_providers.add(target_myuser)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
