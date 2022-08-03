@@ -1,3 +1,4 @@
+from multiprocessing.spawn import old_main_modules
 from django.shortcuts import render, redirect
 
 from user.models import MyUser
@@ -14,7 +15,7 @@ def new_offer(request):
 
     # Check if user is logged in as provider
     username = request.session.get("username")
-    if username == None:
+    if username == None or not User.objects.filter(username = username).exists():
         return render(request, 'home/index.html', {'title':'پیشیاب'})
 
     user = User.objects.get(username=username)
@@ -99,3 +100,52 @@ def set_priority(request, offer_id):
         return redirect('/profile/'+username)
 
     return render(request, 'offer/set_priority.html', {'title':'سطح پیشنهاد'})
+
+
+def edit_offer(request, offer_id):
+    
+    # Check if user is logged in as provider
+    username = request.session.get("username")
+    if username == None or not User.objects.filter(username = username).exists():
+        return render(request, 'home/index.html', {'title':'پیشیاب'})
+
+    user = User.objects.get(username=username)
+    myuser = MyUser.objects.get(user=user)
+    if not myuser.is_provider:
+        return render(request, 'home/index.html', {'title':'پیشیاب', 'myuser':myuser})
+
+    if request.method == 'POST':
+        form = NewOfferForm(request.POST)
+        if form.is_valid():
+            cleaned_form = form.cleaned_data
+            try:
+                username = request.session.get("username")
+                user = User.objects.get(username=username)
+            except:
+                print("ERROR | New_Offer | No User")
+                return render(request, 'offer/new_offer.html', {'form': form, 'title':'پیشنهاد جدید'})
+            
+            old_offer = Offer.objects.get(id = offer_id)
+            old_offer.title = cleaned_form.get("title")
+            old_offer.description = cleaned_form.get("description")
+            old_offer.start_date = cleaned_form.get("start_date")
+            old_offer.start_time = cleaned_form.get("start_time")
+            old_offer.end_date = cleaned_form.get("end_date")
+            old_offer.end_time = cleaned_form.get("end_time")
+            old_offer.price = cleaned_form.get("price")
+            old_offer.discount = cleaned_form.get("discount")
+            old_offer.pic_link = cleaned_form.get("pic_link")
+            old_offer.save()
+            # new_offer = Offer(user=user, title=cleaned_form.get("title"), description=cleaned_form.get("description"), start_date=cleaned_form.get("start_date"), start_time=cleaned_form.get("start_time"),
+            #     end_date=cleaned_form.get("end_date"), end_time=cleaned_form.get("end_time"), price=cleaned_form.get("price"), discount=cleaned_form.get("discount"), pic_link=cleaned_form.get("pic_link"))
+            # new_offer.save()
+            messages.success(request, f'پیشنهاد شما بروزرسانی شد!')
+            return redirect('/profile/'+username)
+            # return redirect('/set_offer_priority/'+str(new_offer.id))
+    else:
+        old_offer = Offer.objects.get(id = offer_id)
+
+        form = NewOfferForm(initial = {'user':old_offer.user, 'title':old_offer.title, 'description':old_offer.description, 'start_date': old_offer.start_date, 'start_time':old_offer.start_time,
+                'end_date':old_offer.end_date, 'end_time':old_offer.end_time, 'price':old_offer.price, 'discount':old_offer.discount, 'pic_link':old_offer.pic_link})
+    return render(request, 'offer/edit_offer.html', {'form': form, 'title':'ویرایش پیشنهاد', 'myuser': myuser})
+   

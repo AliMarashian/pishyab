@@ -159,6 +159,13 @@ function init(){
           <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star-empty"></span></a>
           {% endif %}
         {% endif %}
+        {% if user.is_authenticated %}
+          {% if x.username == user.username %}
+          <a href="{% url 'edit_offer' x.id %}" id="edit-offer-{{x.id}}" style="position:absolute; top:28px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:rgb(0, 0, 0)"><span class="glyphicon glyphicon-edit"></span></a>
+          {% else %} 
+          <!-- <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:48px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star-empty"></span></a> -->
+          {% endif %}
+        {% endif %}
       <img src="{{x.pic_link}}" alt="{{x.title}}" style="width:100%">
       </div>
       <div class="w3-container">

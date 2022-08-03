@@ -48,8 +48,21 @@
                   </div>
                 </div>
                 <hr>
+
+                <div class="w3-row" style="display: flex;">
+                  <div  style="flex-grow:1;">
+                    <h6 style="align-items:center;"> شماره تماس: </h6>
+                  </div>
+                  <div  style="width: 80%;">
+                    <h6 style="align-items:center;">{{myuser_toshow.phone_no}}</h6>
+                  </div>
+              </div>
+              <hr>
+
                 {% endif %}
                 
+                {% if not myuser_toshow.is_provider%}
+                {%if user.username == myuser.username%}
                 <div class="w3-row" style="display: flex;">
                     <div  style="flex-grow:1;">
                       <h6 style="align-items:center;"> شماره تماس: </h6>
@@ -59,7 +72,8 @@
                     </div>
                 </div>
                 <hr>
-                
+                {% endif %}
+                {% endif %}
                 {% if myuser_toshow.is_provider %}
                 <div class="w3-row" style="display: flex;">
                     <div  style="flex-grow:1;">
@@ -86,6 +100,7 @@
     {% if fav_offers.all %}
     <div class="w3-row-padding" style="margin-top:64px;">
     <h3 class="w3-center"> پیشنهاد های مورد علاقه</h3>
+    <center>
     {% for x in fav_offers %}
   <div class="w3-col m6 w3-margin-bottom" dir = 'rtl' style="margin-right:10px; width:24.125%;">
     <div class="w3-card">
@@ -95,6 +110,13 @@
           <a href="{% url 'fav_offer' x.id %}" id="fav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star"></span></a>
           {% else %}
           <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star-empty"></span></a>
+          {% endif %}
+        {% endif %}
+        {% if user.is_authenticated %}
+          {% if x.username == myuser.username %}
+          <a href="{% url 'edit_offer' x.id %}" id="edit-offer-{{x.id}}" style="position:absolute; top:28px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:rgb(0, 0, 0)"><span class="glyphicon glyphicon-edit"></span></a>
+          {% else %} 
+          <!-- <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:48px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star-empty"></span></a> -->
           {% endif %}
         {% endif %}
         <img src="{{x.pic_link}}" alt="{{x.title}}" style="width:100%">
@@ -115,6 +137,7 @@
     </div>
   </div>
   {% endfor %}
+  </center>
     </div>
     {% endif %}
 
@@ -122,6 +145,7 @@
     {% if myuser_toshow.is_provider %}
     <div class="w3-row-padding" style="margin-top:64px;">
     <h3 class="w3-center"> پیشنهاد های ویژه</h3>
+    <center>
     {% for x in myoffers %}
   <div class="w3-col m6 w3-margin-bottom" dir = 'rtl' style="margin-right:10px; width:24.125%;">
     <div class="w3-card">
@@ -131,6 +155,13 @@
           <a href="{% url 'fav_offer' x.id %}" id="fav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star"></span></a>
           {% else %}
           <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star-empty"></span></a>
+          {% endif %}
+        {% endif %}
+        {% if user.is_authenticated %}
+          {% if x.username == myuser.username %}
+          <a href="{% url 'edit_offer' x.id %}" id="edit-offer-{{x.id}}" style="position:absolute; top:28px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:rgb(0, 0, 0)"><span class="glyphicon glyphicon-edit"></span></a>
+          {% else %} 
+          <!-- <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:48px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star-empty"></span></a> -->
           {% endif %}
         {% endif %}
         <img src="{{x.pic_link}}" alt="{{x.title}}" style="width:100%">
@@ -151,6 +182,7 @@
     </div>
   </div>
   {% endfor %}
+  </center>
     </div>
     {% endif %}
     </div>
