@@ -146,47 +146,51 @@ function init(){
     <!-- <div>
       <img src="https://haftc.ir/wp-content/uploads/2019/10/168436484319841368143-1920x960.jpg" style="width:100%;">
     </div> -->
-  <h3 class="w3-center"> پیشنهادهای ویژه</h3>
-  <center>
-  {% for x in myoffers %}
-  <div class="w3-col m6 w3-margin-bottom" dir = 'rtl' style="margin-right:10px; width:24.125%;">
-    <div class="w3-card">
-      <div style="position: relative;text-align: center;">
-        {% if user.is_authenticated %}
-          {% if x.fav %}
-          <a href="{% url 'fav_offer' x.id %}" id="fav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star"></span></a>
+
+{% for category, offers in category_offers.items %}
+    <div class="w3-row-padding" style="margin-top:64px;">
+      <h3 class="w3-center"> پیشنهادهای {{category}}</h3>
+      <center>
+      {% for x in offers %}
+    <div class="w3-col m6 w3-margin-bottom" dir = 'rtl' style="margin-right:10px; width:24.125%;">
+      <div class="w3-card">
+        <div style="position: relative;text-align: center;">
+          {% if user.is_authenticated %}
+            {% if x.fav %}
+            <a href="{% url 'fav_offer' x.id %}" id="fav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star"></span></a>
+            {% else %}
+            <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star-empty"></span></a>
+            {% endif %}
+          {% endif %}
+          {% if user.is_authenticated %}
+            {% if x.username == myuser.username %}
+            <a href="{% url 'edit_offer' x.id %}" id="edit-offer-{{x.id}}" style="position:absolute; top:28px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:rgb(0, 0, 0)"><span class="glyphicon glyphicon-edit"></span></a>
+            {% else %} 
+            <!-- <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:48px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star-empty"></span></a> -->
+            {% endif %}
+          {% endif %}
+          <img src="{{x.pic_link}}" alt="{{x.title}}" style="width:100%">
+        </div>
+        <div class="w3-container">
+          <h3>{{ x.title }}</h3> 
+          <p class="w3-opacity"><a href="/profile/{{x.username}}">{{ x.orgname }}</a></p>
+          {% if x.description == "" or x.description == None %}
+            <p > hi, hello </p>
           {% else %}
-          <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:8px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star-empty"></span></a>
+            <p >{{x.description}}</p>
           {% endif %}
-        {% endif %}
-        {% if user.is_authenticated %}
-          {% if x.username == user.username %}
-          <a href="{% url 'edit_offer' x.id %}" id="edit-offer-{{x.id}}" style="position:absolute; top:28px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:rgb(0, 0, 0)"><span class="glyphicon glyphicon-edit"></span></a>
-          {% else %} 
-          <!-- <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:48px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star-empty"></span></a> -->
-          {% endif %}
-        {% endif %}
-      <img src="{{x.pic_link}}" alt="{{x.title}}" style="width:100%">
-      </div>
-      <div class="w3-container">
-        <h3 >{{ x.title }}</h3>
-        
-        <p class="w3-opacity"><a href="/profile/{{x.username}}">{{ x.orgname }}</a></p>
-        {% if x.description == "" or x.description == None %}
-          <p style="color:#F1F1F1">  . </p>
-        {% else %}
-          <p>{{x.description| truncatechars:30}}</p>
-        {% endif %}
-        <p>از {{x.start_date}}, {{x.start_time}}</p>
-        <p>تا {{x.end_date}}, {{x.end_time}}</p>
-        <p>قیمت اصلی: {{x.price}}</p>
-        <p>تخفیف: {{x.discount}} درصد</p>
+          <p>از {{x.start_date}}, {{x.start_time}}</p>
+          <p>تا {{x.end_date}}, {{x.end_time}}</p>
+          <p>قیمت اصلی: {{x.price}}</p>
+          <p>تخفیف: {{x.discount}} درصد</p>
+          <p>دسته: {{x.category}}</p>
+        </div>
       </div>
     </div>
+    {% endfor %}
+    </center>
   </div>
   {% endfor %}
-  </center>
-  </div>
   {% endblock %}
 </body>
 

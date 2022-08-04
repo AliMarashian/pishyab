@@ -1,6 +1,6 @@
 from email.policy import default
 from django import forms
-from .models import Offer
+from .models import Offer, CATEGORY_CHOICES, OTHER
 from django.core.validators import MaxValueValidator, MinValueValidator
   
 
@@ -14,6 +14,7 @@ class NewOfferForm(forms.Form):
     start_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), label="ساعت شروع بازه پیشنهاد")
     end_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), label="تاریخ پایان بازه پیشنهاد")
     end_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), label="ساعت پایان بازه پیشنهاد")
+    category = forms.ChoiceField(choices=CATEGORY_CHOICES, initial=OTHER, label="دسته")
     price = forms.IntegerField(label="قیمت", required=False, validators=[MinValueValidator(0)], widget=forms.NumberInput(attrs={'placeholder': 'به ریال'}))
     discount = forms.IntegerField(label="درصد تخفیف", required=False, validators=[MaxValueValidator(100), MinValueValidator(0)])
     pic_link = forms.CharField(max_length=400, label='لینک عکس آپلود شده', required=False)

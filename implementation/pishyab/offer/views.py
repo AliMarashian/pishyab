@@ -1,4 +1,5 @@
 from multiprocessing.spawn import old_main_modules
+from unicodedata import category
 from django.shortcuts import render, redirect
 
 from user.models import MyUser
@@ -35,7 +36,9 @@ def new_offer(request):
                 return render(request, 'offer/new_offer.html', {'form': form, 'title':'پیشنهاد جدید'})
 
             new_offer = Offer(user=user, title=cleaned_form.get("title"), description=cleaned_form.get("description"), start_date=cleaned_form.get("start_date"), start_time=cleaned_form.get("start_time"),
-                end_date=cleaned_form.get("end_date"), end_time=cleaned_form.get("end_time"), price=cleaned_form.get("price"), discount=cleaned_form.get("discount"), pic_link=cleaned_form.get("pic_link"))
+                end_date=cleaned_form.get("end_date"), end_time=cleaned_form.get("end_time"), price=cleaned_form.get("price"), discount=cleaned_form.get("discount"), category=cleaned_form.get("category"))
+            if cleaned_form.get("pic_link"):
+                new_offer.pic_link = cleaned_form.get("pic_link")
             new_offer.save()
 
             return redirect('/set_offer_priority/'+str(new_offer.id))
@@ -135,6 +138,7 @@ def edit_offer(request, offer_id):
             old_offer.price = cleaned_form.get("price")
             old_offer.discount = cleaned_form.get("discount")
             old_offer.pic_link = cleaned_form.get("pic_link")
+            old_offer.category = cleaned_form.get("category")
             old_offer.save()
             # new_offer = Offer(user=user, title=cleaned_form.get("title"), description=cleaned_form.get("description"), start_date=cleaned_form.get("start_date"), start_time=cleaned_form.get("start_time"),
             #     end_date=cleaned_form.get("end_date"), end_time=cleaned_form.get("end_time"), price=cleaned_form.get("price"), discount=cleaned_form.get("discount"), pic_link=cleaned_form.get("pic_link"))
