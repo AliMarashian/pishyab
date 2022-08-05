@@ -101,12 +101,10 @@ class UserPasswordResetForm(SetPasswordForm):
 
 class UserForgotPasswordForm(PasswordResetForm):
     """User forgot password, check via email form."""
-    email = forms.EmailField(label='Email address',
-        max_length=254,
+    email = forms.EmailField(label='آدرس ایمیل',
         required=True,
         widget=forms.TextInput(
-         attrs={'class': 'form-control',
-                'placeholder': 'email address',
+         attrs={'placeholder': 'برای مثال aaa@gmail.com',
                 'type': 'text',
                 'id': 'email_address'
                 }
