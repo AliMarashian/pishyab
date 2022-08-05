@@ -1,10 +1,14 @@
 from asyncio.windows_events import NULL
 import imp
 from django.shortcuts import render, redirect
+from django.views.decorators.http import require_http_methods
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-# from django.contrib.auth.forms import AuthenticationForm
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.sites.shortcuts import get_current_site
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .forms import UserRegisterForm, UserLoginForm, ProviderRegisterForm, EditFormProvider, EditFormUser
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
@@ -14,6 +18,11 @@ from .models import MyUser
 from offer.models import Offer
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect
+from django.http import HttpResponse
+# from project.decorators import check_recaptcha, unauthenticated_required
+# from project.tokens import password_reset_token
+from .forms import UserForgotPasswordForm
+# from project.settings import config
 
 # from django.conf import settings
 # User = settings.AUTH_USER_MODEL
@@ -154,6 +163,31 @@ def delete_view(request, username_):
     else:
         return redirect('index')
 
+@ csrf_exempt
+def check_password(request):
+    username_ = request.session.get("username")
+    if User.objects.filter(username = username_).exists():
+        user = User.objects.get(username = username_)
+        success = user.check_password(request.POST['old_password'])
+        print(request.POST['old_password'])
+        if success:
+            return HttpResponse('fine')
+        else:
+            return HttpResponse('not matched')
+    else:
+        return HttpResponse('unauthorized user')
+
+@ csrf_exempt   
+def update_password(request):
+    username_ = request.session.get("username")
+    if User.objects.filter(username = username_).exists():
+        user = User.objects.get(username = username_)
+        user.set_password(request.POST['new_password'])
+        user.save()
+        return HttpResponse('changed')
+    else:
+        return HttpResponse('unauthorized user')
+
 def edit_view(request, username_):
     username = request.session.get("username")
     if username_ == username:    
@@ -177,9 +211,9 @@ def edit_view(request, username_):
                 cleaned_form = form.cleaned_data
                 if form.cleaned_data.get('email') != "":
                     user_.email = form.cleaned_data.get('email')
-                print(form.cleaned_data.get('password1'))
-                if form.cleaned_data.get('password1') != "":
-                    user_.set_password(form.cleaned_data.get('password1'))
+                # print(form.cleaned_data.get('password1'))
+                # if form.cleaned_data.get('password1') != "":       
+                #     user_.set_password(form.cleaned_data.get('password1'))
                 user_.save()
                 myuser.user = user_
                 if cleaned_form.get("phone_no") != "":
@@ -212,7 +246,7 @@ def edit_view(request, username_):
                 form = EditFormUser(initial = {'username' : username_, 'email' : myuser.user.email, 'phone_no' : myuser.phone_no})
            form.fields['username'].disabled = True
            form.fields['username'].required = False
-           form.fields['password1'].required = False
+        #    form.fields['password1'].required = False
         #    form.fields['password2'].required = False
            context = {'form':form, 'myuser': myuser, 'title':"ویرایش پروفایل"}
            return render(request,'user/edit.html',context)
@@ -246,4 +280,49 @@ def fav_provider(request, user_id):
     else:
         myuser.fav_providers.add(target_myuser)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+# @require_http_methods(["GET", "POST"])
+# def password_reset(request):
+#     """User forgot password form view."""
+#     msg = ''
+#     if request.method == "POST":
+#         form = UserForgotPasswordForm(request.POST)
+#         if form.is_valid() and request.recaptcha_is_valid:
+#             email = request.POST.get('email')
+#             qs = User.objects.filter(email=email)
+#             site = get_current_site(request)
+
+#             if len(qs) > 0:
+#                 user = qs[0]
+#                 # user.is_active = False  # User needs to be inactive for the reset password duration
+#                 user.profile.reset_password = True
+#                 user.save()
+
+#                 message = render_to_string('account/password_reset_mail.html', {
+#                     'user': user,
+#                     'protocol': 'http',
+#                     'domain': site.domain,
+#                     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+#                     'token': account_activation_token.make_token(user),
+#                 })
+
+#                 message = Mail(
+#                     from_email='noreply@domain.com',
+#                     to_emails=email,
+#                     subject='Reset password for domain.com',
+#                     html_content=message)
+#                 try:
+#                     sg = SendGridAPIClient(config['SENDGRID_API_KEY'])
+#                     response = sg.send(message)
+#                 except Exception as e:
+#                     print(e)
+
+#             messages.add_message(request, messages.SUCCESS, 'Email {0} submitted.'.format(email))
+#             msg = 'If this mail address is known to us, an email will be sent to your account.'
+#         else:
+#             messages.add_message(request, messages.WARNING, 'Email not submitted.')
+#             return render(request, 'account/password_reset_req.html', {'form': form})
+
+#     return render(request, 'account/password_reset_req.html', {'form': UserForgotPasswordForm, 'msg': msg})
 

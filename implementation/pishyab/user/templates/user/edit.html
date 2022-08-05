@@ -8,7 +8,7 @@
 
 
 {% block start %}
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
   function popUpFunction() {
     var txt;
@@ -20,6 +20,69 @@
       pass
     }
   }
+
+  function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+  function promptFunction(){
+    let text;
+    let pass = prompt("رمز عبور فعلی‌تان را وارد کنید:")
+    if (pass == null || pass == "") {
+      text = "User cancelled the prompt.";
+    } else {
+      // {% csrf_token %}
+      const Url = "../check_password/"
+      var csrftoken = getCookie('csrftoken');
+      const Data = { 'old_password': pass, 'CSRFToken': csrftoken}
+      console.log(Data)
+      $.ajax({
+        url : Url,
+        data : Data,
+        type : "POST",
+        success: function(result){
+          if (result == 'fine'){
+            let pass_new = prompt("رمز عبور جدیدتان را وارد کنید")
+            var csrftoken1 = getCookie('csrftoken');
+            $.ajax({
+              url : '../update_password/',
+              data : {'new_password': pass_new, 'CSRFToken': csrftoken1},
+              type : "POST",
+              success: function(result){
+                if (result == 'changed'){
+                  alert(".رمز عبور با موفقیت تغییر کرد، دوباره وارد شوید")
+                  window.location.replace("../login");
+                } else {
+                  alert("مشکلی پیش آمد. لطفاً دوباره امتحان کنید.")
+                }
+              }
+            })
+          } else if (result == 'not matched'){
+            alert("رمز عبور را اشتباه وارد کردید")
+          } else {
+            alert('شما اجازه دسترسی ندارید')
+          }
+        },
+        error: function(error){
+          alert('خطایی پیش آمد. دوباره امتحان کنید')
+        }
+      })
+    }
+  }
+
+
 </script>
 
 <div class="content-section col-md-8 col-md-offset-2" dir="rtl" style="border: 1px solid black; margin-top:4%; margin-bottom:4%; padding:4% 10% 2% 10%; border-radius:1%;">
@@ -39,6 +102,7 @@
     <br />
     <center> 
       <sub><a href="../profile/{{myuser.user.username}}" style="text-decoration: none; color: blue; padding:3%; cursor:pointer;font-size: 150%;">انصراف</a></sub>
+      <sub onclick = "promptFunction()" style="text-decoration: none; color: rgb(0, 0, 0); padding:3%; cursor:pointer;font-size: 120%;" type="button">تغییر رمز عبور</sub>
       <sub onclick = "popUpFunction()" style="text-decoration: none; color: red; padding:3%; cursor:pointer;font-size: 120%;" type="button">حذف پروفایل</sub>
     </center>
   </form>

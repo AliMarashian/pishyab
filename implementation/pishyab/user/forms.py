@@ -3,7 +3,11 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth import get_user_model
+
   
+
 class UserLoginForm(AuthenticationForm):
     username = forms.CharField(max_length = 20, label="نام‌کاربری")
     password = forms.CharField(max_length = 20, label="رمز عبور", widget=forms.PasswordInput())
@@ -44,7 +48,8 @@ class EditFormUser(forms.Form):
     email = forms.EmailField(label="ایمیل")
     phone_no = forms.CharField(max_length = 20, label="شماره موبایل")
     username = forms.CharField(max_length = 20, label="نام‌کاربری")
-    password1 = forms.CharField(max_length = 20, label="رمز عبور جدید", widget=forms.PasswordInput())
+    # password1 = forms.CharField(max_length = 20, label="رمز عبور جدید", widget= forms.PasswordInput
+    #                        (attrs={'id':'password_edit'}), required=False)
     # password2 = forms.CharField(max_length = 20, label="تکرار رمز عبور جدید", widget=forms.PasswordInput())
     class Meta:
         model = User
@@ -55,7 +60,8 @@ class EditFormProvider(forms.Form):
     email = forms.EmailField(label="ایمیل")
     phone_no = forms.CharField(max_length = 20, label="شماره تلفن")
     username = forms.CharField(max_length = 20, label="نام‌کاربری", required=False)
-    password1 = forms.CharField(max_length = 20, label="رمز عبور جدید", widget=forms.PasswordInput(), required=False)
+    # password1 = forms.CharField(max_length = 20, label="رمز عبور جدید",widget= forms.PasswordInput
+    #                        (attrs={'id':'password_edit', 'onchange': 'promptFunction()'}) , required=False)
     # password2 = forms.CharField(max_length = 20, label="تکرار رمز عبور جدید", widget=forms.PasswordInput())
     orgname = forms.CharField(max_length = 50, label="نام سازمان")
     address = forms.CharField(max_length = 100, label="آدرس سازمان", required=False)
@@ -65,12 +71,43 @@ class EditFormProvider(forms.Form):
         fields = ['username', 'email', 'password1']
 
     
-    # title = forms.CharField(max_length = 50, label="عنوان")
-    # description = forms.CharField(max_length = 200, widget=forms.Textarea, required=False, initial="", label="توضیحات")
-    # start_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), label="تاریخ شروع بازه پیشنهاد")
-    # start_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), label="ساعت شروع بازه پیشنهاد")
-    # end_date = forms.DateField(widget=forms.widgets.DateInput(attrs={'type': 'date'}), label="تاریخ پایان بازه پیشنهاد")
-    # end_time = forms.TimeField(widget=forms.widgets.TimeInput(attrs={'type': 'time'}), label="ساعت پایان بازه پیشنهاد")
-    # price = forms.IntegerField(label="قیمت", required=False, validators=[MinValueValidator(0)], widget=forms.NumberInput(attrs={'placeholder': 'به ریال'}))
-    # discount = forms.IntegerField(label="درصد تخفیف", required=False, validators=[MaxValueValidator(100), MinValueValidator(0)])
-   
+
+class UserPasswordResetForm(SetPasswordForm):
+    """Change password form."""
+    new_password1 = forms.CharField(label='Password',
+        help_text="<ul class='errorlist text-muted'><li>Your password can 't be too similar to your other personal information.</li><li>Your password must contain at least 8 characters.</li><li>Your password can 't be a commonly used password.</li> <li>Your password can 't be entirely numeric.<li></ul>",
+        max_length=100,
+        required=True,
+        widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'password',
+            'type': 'password',
+            'id': 'user_password',
+        }))
+
+    new_password2 = forms.CharField(label='Confirm password',
+        help_text=False,
+        max_length=100,
+        required=True,
+        widget=forms.PasswordInput(
+        attrs={
+            'class': 'form-control',
+            'placeholder': 'confirm password',
+            'type': 'password',
+            'id': 'user_password',
+        }))
+
+
+class UserForgotPasswordForm(PasswordResetForm):
+    """User forgot password, check via email form."""
+    email = forms.EmailField(label='Email address',
+        max_length=254,
+        required=True,
+        widget=forms.TextInput(
+         attrs={'class': 'form-control',
+                'placeholder': 'email address',
+                'type': 'text',
+                'id': 'email_address'
+                }
+        ))

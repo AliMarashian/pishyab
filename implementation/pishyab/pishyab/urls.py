@@ -41,4 +41,6 @@ urlpatterns = [
     path('fav_provider/<int:user_id>', user_view.fav_provider, name="fav_provider"),
     path('edit/<str:username_>', user_view.edit_view, name ='edit_view'),
     path('delete/<str:username_>', user_view.delete_view, name ='delete_view'),
+    path('check_password/', user_view.check_password, name ="check_password"),
+    path('update_password/', user_view.update_password, name ="update_password")
 ]
