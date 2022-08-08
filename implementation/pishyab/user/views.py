@@ -270,6 +270,7 @@ def edit_view(request, username_):
                 form_user = EditFormUser(request.POST)
                 # form_user.fields['username'].disabled = True
                 form = form_user
+            form.fields['username'].required = False
             if form.is_valid():
                 print('form is valid')
                 user_ = User.objects.get(username=username_)
