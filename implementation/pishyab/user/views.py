@@ -311,12 +311,13 @@ def edit_view(request, username_):
             if myuser.is_provider:
                 form = EditFormProvider(
                     initial={'username': username_, 'email': myuser.user.email, 'phone_no': myuser.phone_no,
-                             'orgname': myuser.orgname, 'address': myuser.address, 'description': myuser.description})
+                             'orgname': myuser.orgname, 'address': myuser.address, 'description': myuser.description,
+                             'location': myuser.location})
                 form.fields['description'].required = False
                 form.fields['address'].required = False
             else:
                 form = EditFormUser(
-                    initial={'username': username_, 'email': myuser.user.email, 'phone_no': myuser.phone_no})
+                    initial={'username': username_, 'email': myuser.user.email, 'phone_no': myuser.phone_no, 'location': myuser.location})
             form.fields['username'].disabled = True
             form.fields['username'].required = False
             #    form.fields['password1'].required = False

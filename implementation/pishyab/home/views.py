@@ -48,3 +48,7 @@ def index(request):
         for offer in all_offers:
             offer['fav'] = myuser.fav_offers.filter(id=offer['id']).exists()
     return render(request, 'home/index.html', {'title':'پیشیاب', 'myuser':myuser, 'myoffers': all_offers, 'category_offers':category_offers})
+
+
+def view_about_us(request):
+    return render(request, 'home/aboutus.html')

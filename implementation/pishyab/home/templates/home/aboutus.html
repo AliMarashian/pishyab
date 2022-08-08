@@ -1,0 +1,29 @@
+{% extends "home/index.html" %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+
+{% block start %}
+
+<div class="content-section col-md-8 col-md-offset-2" dir="rtl" style="border: 1px solid black; margin-top:4%; margin-bottom:4%; padding:4% 10% 2% 10%; border-radius:1%;">
+  
+<center>
+<h1> پیش‌یاب، راه آینده</h1>
+<p>
+    مفتخریم که بهترین خدمات در زمینه کارمان را به مردم خوب ایران زمین
+    ارائه می‌کنیم. 
+    می‌توانید از راه‌های زیر با ما در ارتباط باشید.
+</br>
+<span class="glyphicon glyphicon-envelope"></span> &nbsp; <a href = "mailto: pishyab@zoho.com">pishyab@zoho.com</a> 
+</br>
+<span class="glyphicon glyphicon-earphone"></span> &nbsp; 09128365847 
+
+</p>
+
+</center>
+
+</div>
+{% endblock start%}
