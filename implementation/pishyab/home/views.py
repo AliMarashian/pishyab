@@ -18,6 +18,7 @@ def index(request):
     username = request.session.get("username")
     all_offers = Offer.objects.all().values()
     category_offers = {}
+    dist = []
     if username != None and User.objects.filter(username=username).exists():
         user = User.objects.get(username=username)
         myuser = MyUser.objects.get(user=user)
