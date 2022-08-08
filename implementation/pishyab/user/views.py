@@ -283,7 +283,7 @@ def edit_view(request, username_):
                 #     user_.set_password(form.cleaned_data.get('password1'))
                 user_.save()
                 myuser.user = user_
-                if cleaned_form.get('location') != '35.699295968881565,51.3368797302246':
+                if cleaned_form.get('location') != "":
                     myuser.location = cleaned_form.get('location')
                 if cleaned_form.get("phone_no") != "":
                     myuser.phone_no = cleaned_form.get("phone_no")
