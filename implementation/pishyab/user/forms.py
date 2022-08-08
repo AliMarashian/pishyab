@@ -5,7 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import UserCreationForm, PasswordResetForm, SetPasswordForm
 from django.contrib.auth import get_user_model
-
+from location_field.forms.plain import PlainLocationField
   
 
 class UserLoginForm(AuthenticationForm):
@@ -24,6 +24,8 @@ class UserRegisterForm(UserCreationForm):
     username = forms.CharField(max_length = 20, label="نام‌کاربری")
     password1 = forms.CharField(max_length = 20, label="رمز عبور", widget=forms.PasswordInput())
     password2 = forms.CharField(max_length = 20, label="تکرار رمز عبور", widget=forms.PasswordInput())
+    location = PlainLocationField(zoom=7, label='مختصات', based_fields=[], initial='35.699295968881565,51.3368797302246')
+
     class Meta:
         model = User
         fields = ['username', 'email', 'password1']
@@ -40,14 +42,19 @@ class ProviderRegisterForm(UserCreationForm):
     address = forms.CharField(max_length = 100, label="آدرس سازمان")
     description = forms.CharField(max_length = 200, widget=forms.Textarea, label="توضیحات سازمان")
     license_link = forms.CharField(max_length = 400, label="لینک مجوز کسب آپلود شده")
+    location = PlainLocationField(zoom=7, label='مختصات', based_fields=[], initial='35.699295968881565,51.3368797302246')
+
     class Meta:
         model = User
         fields = ['username', 'email', 'password1']
-    
+
+
 class EditFormUser(forms.Form):
     email = forms.EmailField(label="ایمیل")
     phone_no = forms.CharField(max_length = 20, label="شماره موبایل")
     username = forms.CharField(max_length = 20, label="نام‌کاربری")
+    location = PlainLocationField(zoom=7, label='مختصات', based_fields=[],
+                                  initial='35.699295968881565,51.3368797302246')
     # password1 = forms.CharField(max_length = 20, label="رمز عبور جدید", widget= forms.PasswordInput
     #                        (attrs={'id':'password_edit'}), required=False)
     # password2 = forms.CharField(max_length = 20, label="تکرار رمز عبور جدید", widget=forms.PasswordInput())
@@ -66,6 +73,8 @@ class EditFormProvider(forms.Form):
     orgname = forms.CharField(max_length = 50, label="نام سازمان")
     address = forms.CharField(max_length = 100, label="آدرس سازمان", required=False)
     description = forms.CharField(max_length = 200, widget=forms.Textarea, label="توضیحات سازمان", required=False)
+    location = PlainLocationField(zoom=7, label='مختصات', based_fields=[],
+                                  initial='35.699295968881565,51.3368797302246')
     class Meta:
         model = User
         fields = ['username', 'email', 'password1']

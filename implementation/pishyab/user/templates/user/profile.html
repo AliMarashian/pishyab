@@ -1,5 +1,8 @@
 {% extends "home/index.html" %}
 {% block start %}
+
+{{location.media}}
+
 <div class="w3-container" style="padding:12px 16px" id="team" dir="rtl">
     <!-- <h3 class="w3-center">پیشنهاد‌های شما</h3> -->
     <p class="w3-center w3-large"></p>
@@ -97,6 +100,7 @@
                 <hr>
                 {% endif %}
 
+
                 {% if fav_providers.all %}
                 <div class="w3-row" style="display: flex;">
                   <div  style="flex-grow:1;">
@@ -122,6 +126,9 @@
         
         </div>
     </div>
+
+      {{location}}
+
     <!-- </div> -->
     {% if fav_offers.all %}
     <div class="w3-row-padding" style="margin-top:64px;">

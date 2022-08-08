@@ -2,6 +2,8 @@ from django.db import models
 from django import forms
 from django.contrib.auth.models import User
 from offer.models import Offer
+from location_field.models.plain import PlainLocationField
+
 
 class MyUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -16,3 +18,5 @@ class MyUser(models.Model):
     description = models.CharField(max_length = 200, null=True)
     license_link = models.CharField(max_length = 400, null=True)
     is_verified = models.BooleanField(default=False)
+
+    location = PlainLocationField(zoom=7, default=None)

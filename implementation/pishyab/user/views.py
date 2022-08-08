@@ -33,6 +33,9 @@ from django.utils.http import urlsafe_base64_encode
 # from project.tokens import password_reset_token
 from .forms import UserForgotPasswordForm
 # from project.settings import config
+from location_field.forms.plain import PlainLocationField
+from django.db import models
+from django import forms
 
 # from django.conf import settings
 # User = settings.AUTH_USER_MODEL
@@ -68,7 +71,7 @@ def register(request):
                 is_verified = True
             else:
                 is_verified = True
-            my_user = MyUser(user=user, is_provider=is_provider, phone_no=cleaned_form.get("phone_no"), orgname=cleaned_form.get("orgname"), address=cleaned_form.get('address'), description=cleaned_form.get('description'), license_link=cleaned_form.get('license_link'), is_verified=is_verified)
+            my_user = MyUser(user=user, is_provider=is_provider, phone_no=cleaned_form.get("phone_no"), orgname=cleaned_form.get("orgname"), address=cleaned_form.get('address'), description=cleaned_form.get('description'), license_link=cleaned_form.get('license_link'), is_verified=is_verified, location=cleaned_form.get('location'))
             if cleaned_form.get("pic_link"):
                 my_user.pic_link = cleaned_form.get("pic_link")
             my_user.save()
@@ -116,7 +119,10 @@ def Login(request):
 def view_profile(request, username_):
     user_of_interest = User.objects.get(username = username_)
     my_user_to_show = MyUser.objects.get(user = user_of_interest)
-    
+
+    class locForm(forms.Form):
+        location = PlainLocationField(zoom=7, label='مختصات', based_fields=[], initial=my_user_to_show.location)
+
     user_offers = Offer.objects.filter(user=user_of_interest).values()
     fav_offers = my_user_to_show.fav_offers.all().values()
     fav_providers = my_user_to_show.fav_providers.all().values()
@@ -141,7 +147,8 @@ def view_profile(request, username_):
         'myoffers' : user_offers,
         'fav_offers' : fav_offers,
         'fav_providers' : fav_providers,
-        'is_fav' : is_fav
+        'is_fav' : is_fav,
+        'location': locForm
     }
 
     # print("*" * 100)
@@ -265,6 +272,8 @@ def edit_view(request, username_):
                 #     user_.set_password(form.cleaned_data.get('password1'))
                 user_.save()
                 myuser.user = user_
+                if cleaned_form.get('مختصات') != '35.699295968881565,51.3368797302246':
+                    myuser.location = cleaned_form.get('مختصات')
                 if cleaned_form.get("phone_no") != "":
                     myuser.phone_no = cleaned_form.get("phone_no")
                 if is_provider and cleaned_form.get("orgname")!= "":

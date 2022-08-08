@@ -6,8 +6,11 @@
 
 <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
-{% block start %}
 
+
+{% block start %}
+{{form_user.media}}
+{{form_provider.media}}
 
 <script>
   function ut_change() {

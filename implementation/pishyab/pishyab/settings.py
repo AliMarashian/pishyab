@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     # 'user',
+    'location_field.apps.DefaultConfig',
 ]
 
 MIDDLEWARE = [
@@ -147,3 +148,8 @@ EMAIL_HOST_PASSWORD = 'Codeforces41e'
 ########################################
 
 # AUTH_USER_MODEL = 'user.MyUser' 
+
+LOCATION_FIELD = {
+    'map.provider': 'openstreetmap',
+    'provider.openstreetmap.max_zoom': 18,
+}
