@@ -18,14 +18,16 @@ def index(request):
     username = request.session.get("username")
     all_offers = Offer.objects.all().values()
     category_offers = {}
+    dist = []
     if username != None and User.objects.filter(username=username).exists():
         user = User.objects.get(username=username)
         myuser = MyUser.objects.get(user=user)
-        dist = []
         for offer in all_offers:
             initial_user = User.objects.get(id=offer['user_id'])
             my_user = MyUser.objects.get(user=initial_user)
             dist.append(distance(myuser.location, my_user.location))
+    else:
+        dist = [0] * len(all_offers)
 
     sorted_offers = sorted(zip(all_offers, dist), key=lambda t: t[1])
 
