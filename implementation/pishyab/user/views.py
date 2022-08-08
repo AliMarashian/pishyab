@@ -37,10 +37,11 @@ from location_field.forms.plain import PlainLocationField
 from django.db import models
 from django import forms
 
+
 # from django.conf import settings
 # User = settings.AUTH_USER_MODEL
-   
-   
+
+
 #################### index ####################################### 
 # def index(request):
 #     # user = User(email="salam")
@@ -48,11 +49,11 @@ from django import forms
 #     # print(user)
 #     # print(User.objects.get(id="1").orgname)
 #     return render(request, 'user/index.html', {'title':'پیشیاب'})
-   
+
 ########### register here ##################################### 
 def register(request):
     username = request.session.get("username")
-    if username != None and User.objects.filter(username = username).exists():
+    if username != None and User.objects.filter(username=username).exists():
         return redirect('index')
     form_provider = ProviderRegisterForm(request.POST or None)
     form_user = UserRegisterForm(request.POST or None)
@@ -71,7 +72,10 @@ def register(request):
                 is_verified = True
             else:
                 is_verified = True
-            my_user = MyUser(user=user, is_provider=is_provider, phone_no=cleaned_form.get("phone_no"), orgname=cleaned_form.get("orgname"), address=cleaned_form.get('address'), description=cleaned_form.get('description'), license_link=cleaned_form.get('license_link'), is_verified=is_verified, location=cleaned_form.get('location'))
+            my_user = MyUser(user=user, is_provider=is_provider, phone_no=cleaned_form.get("phone_no"),
+                             orgname=cleaned_form.get("orgname"), address=cleaned_form.get('address'),
+                             description=cleaned_form.get('description'), license_link=cleaned_form.get('license_link'),
+                             is_verified=is_verified, location=cleaned_form.get('location'))
             if cleaned_form.get("pic_link"):
                 my_user.pic_link = cleaned_form.get("pic_link")
             my_user.save()
@@ -79,7 +83,7 @@ def register(request):
             email = form.cleaned_data.get('email')
             ######################### mail system #################################### 
             htmly = get_template('user/Email.html')
-            d = { 'username': username }
+            d = {'username': username}
             subject, from_email, to = 'welcome', 'pishyab@zohomail.com', email
             html_content = htmly.render(d)
             msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
@@ -88,23 +92,25 @@ def register(request):
             ################################################################## 
             messages.success(request, f'حساب کاربری شما ساخته شد!')
             return redirect('login')
-        
+
     else:
         form_user = UserRegisterForm()
         form_provider = ProviderRegisterForm()
-    return render(request, 'user/register.html', {'form_user': form_user, 'form_provider': form_provider, 'title':'ثبت‌نام'})
-   
+    return render(request, 'user/register.html',
+                  {'form_user': form_user, 'form_provider': form_provider, 'title': 'ثبت‌نام'})
+
+
 ################ login forms################################################### 
 def Login(request):
     print("man mikham biam too")
     username = request.session.get("username")
-    if username != None and User.objects.filter(username = username).exists():
+    if username != None and User.objects.filter(username=username).exists():
         return redirect('index')
     if request.method == 'POST':
         # AuthenticationForm_can_also_be_used__
         username = request.POST['username']
         password = request.POST['password']
-        user = authenticate(request, username = username, password = password)
+        user = authenticate(request, username=username, password=password)
         if user is not None:
             form = login(request, user)
             # messages.success(request, f' خوش آمدید {username} !!!')
@@ -113,12 +119,12 @@ def Login(request):
         else:
             messages.info(request, f'اطلاعات کاربری درست نمی‌باشد!')
     form = UserLoginForm()
-    return render(request, 'user/login.html', {'form':form, 'title':'ورود'})
+    return render(request, 'user/login.html', {'form': form, 'title': 'ورود'})
 
 
 def view_profile(request, username_):
-    user_of_interest = User.objects.get(username = username_)
-    my_user_to_show = MyUser.objects.get(user = user_of_interest)
+    user_of_interest = User.objects.get(username=username_)
+    my_user_to_show = MyUser.objects.get(user=user_of_interest)
 
     class locForm(forms.Form):
         location = PlainLocationField(zoom=7, label='مختصات', based_fields=[], initial=my_user_to_show.location)
@@ -132,7 +138,7 @@ def view_profile(request, username_):
     username = request.session.get("username")
     myuser = None
     is_fav = False
-    if username != None and User.objects.filter(username = username).exists():
+    if username != None and User.objects.filter(username=username).exists():
         user = User.objects.get(username=username)
         myuser = MyUser.objects.get(user=user)
         for offer in user_offers:
@@ -142,31 +148,33 @@ def view_profile(request, username_):
         is_fav = myuser.fav_providers.filter(user=user_of_interest).exists()
 
     context = {
-        'user_toshow' : user_of_interest,
+        'user_toshow': user_of_interest,
         'myuser_toshow': my_user_to_show,
-        'myoffers' : user_offers,
-        'fav_offers' : fav_offers,
-        'fav_providers' : fav_providers,
-        'is_fav' : is_fav,
+        'myoffers': user_offers,
+        'fav_offers': fav_offers,
+        'fav_providers': fav_providers,
+        'is_fav': is_fav,
         'location': locForm
     }
 
     # print("*" * 100)
     return render(request, "user/profile.html", context)
 
+
 def logout_view(request):
     logout(request)
     all_offers = Offer.objects.all().values()
 
     for offer in all_offers:
-        initial_user = User.objects.get(id = offer['user_id'])
-        my_user = MyUser.objects.get(user = initial_user)
+        initial_user = User.objects.get(id=offer['user_id'])
+        my_user = MyUser.objects.get(user=initial_user)
         offer['orgname'] = my_user.orgname
         offer['username'] = initial_user.username
 
     # return render(request, "offer/view_offers.html", context)
     myuser = None
-    return render(request, 'home/index.html', {'title':'پیشیاب', 'myuser':myuser, 'myoffers': all_offers})
+    return render(request, 'home/index.html', {'title': 'پیشیاب', 'myuser': myuser, 'myoffers': all_offers})
+
 
 def password_reset_request(request):
     if request.method == "POST":
@@ -194,7 +202,7 @@ def password_reset_request(request):
 
                     htmly = get_template('user/Email_reset_password.html')
                     # d = { 'username': user.username }
-                    subject, from_email, to = "تغییر رمز عبور | پیشیاب" , settings.EMAIL_HOST_USER, user.email
+                    subject, from_email, to = "تغییر رمز عبور | پیشیاب", settings.EMAIL_HOST_USER, user.email
                     html_content = htmly.render(c)
                     msg = EmailMultiAlternatives(subject, html_content, from_email, [to])
                     msg.attach_alternative(html_content, "text/html")
@@ -209,21 +217,22 @@ def password_reset_request(request):
 
 def delete_view(request, username_):
     username = request.session.get("username")
-    if username_ == username:   
+    if username_ == username:
         print(username + " is going to be deleted baby")
-        user_ = User.objects.get(username = username_)
-        myuser = MyUser.objects.get(user = user_)
+        user_ = User.objects.get(username=username_)
+        myuser = MyUser.objects.get(user=user_)
         myuser.delete()
         user_.delete()
         return redirect('index')
     else:
         return redirect('index')
 
-@ csrf_exempt
+
+@csrf_exempt
 def check_password(request):
     username_ = request.session.get("username")
-    if User.objects.filter(username = username_).exists():
-        user = User.objects.get(username = username_)
+    if User.objects.filter(username=username_).exists():
+        user = User.objects.get(username=username_)
         success = user.check_password(request.POST['old_password'])
         print(request.POST['old_password'])
         if success:
@@ -233,20 +242,22 @@ def check_password(request):
     else:
         return HttpResponse('unauthorized user')
 
-@ csrf_exempt   
+
+@csrf_exempt
 def update_password(request):
     username_ = request.session.get("username")
-    if User.objects.filter(username = username_).exists():
-        user = User.objects.get(username = username_)
+    if User.objects.filter(username=username_).exists():
+        user = User.objects.get(username=username_)
         user.set_password(request.POST['new_password'])
         user.save()
         return HttpResponse('changed')
     else:
         return HttpResponse('unauthorized user')
 
+
 def edit_view(request, username_):
     username = request.session.get("username")
-    if username_ == username:    
+    if username_ == username:
         if request.method == 'POST':
             is_provider = ('orgname' in request.POST)
             if is_provider:
@@ -261,9 +272,9 @@ def edit_view(request, username_):
                 form = form_user
             if form.is_valid():
                 print('form is valid')
-                user_ = User.objects.get(username = username_)
+                user_ = User.objects.get(username=username_)
                 print(user_)
-                myuser = MyUser.objects.get(user = user_)
+                myuser = MyUser.objects.get(user=user_)
                 cleaned_form = form.cleaned_data
                 if form.cleaned_data.get('email') != "":
                     user_.email = form.cleaned_data.get('email')
@@ -272,16 +283,16 @@ def edit_view(request, username_):
                 #     user_.set_password(form.cleaned_data.get('password1'))
                 user_.save()
                 myuser.user = user_
-                if cleaned_form.get('مختصات') != '35.699295968881565,51.3368797302246':
-                    myuser.location = cleaned_form.get('مختصات')
+                if cleaned_form.get('location') != '35.699295968881565,51.3368797302246':
+                    myuser.location = cleaned_form.get('location')
                 if cleaned_form.get("phone_no") != "":
                     myuser.phone_no = cleaned_form.get("phone_no")
-                if is_provider and cleaned_form.get("orgname")!= "":
+                if is_provider and cleaned_form.get("orgname") != "":
                     myuser.orgname = cleaned_form.get("orgname")
-                if is_provider and cleaned_form.get("address")!= "":
+                if is_provider and cleaned_form.get("address") != "":
                     myuser.address = cleaned_form.get("address")
-                if is_provider and cleaned_form.get("description")!= "":
-                    myuser.description = cleaned_form.get("description")   
+                if is_provider and cleaned_form.get("description") != "":
+                    myuser.description = cleaned_form.get("description")
                 myuser.save()
                 ################################################################## 
                 messages.success(request, f'حساب کاربری شما بروزرسانی شد')
@@ -292,29 +303,33 @@ def edit_view(request, username_):
                 return redirect('/profile/' + username)
                 # return redirect('index')
         else:
-           print('whaaaaat')
-           user_ = User.objects.get(username = username_)
-           myuser = MyUser.objects.get(user = user_)
-           print(myuser.is_provider)
-           if myuser.is_provider:
-                form = EditFormProvider(initial = {'username' : username_, 'email' : myuser.user.email, 'phone_no' : myuser.phone_no, 'orgname' : myuser.orgname, 'address': myuser.address, 'description': myuser.description})
+            print('whaaaaat')
+            user_ = User.objects.get(username=username_)
+            myuser = MyUser.objects.get(user=user_)
+            print(myuser.is_provider)
+            if myuser.is_provider:
+                form = EditFormProvider(
+                    initial={'username': username_, 'email': myuser.user.email, 'phone_no': myuser.phone_no,
+                             'orgname': myuser.orgname, 'address': myuser.address, 'description': myuser.description})
                 form.fields['description'].required = False
                 form.fields['address'].required = False
-           else:
-                form = EditFormUser(initial = {'username' : username_, 'email' : myuser.user.email, 'phone_no' : myuser.phone_no})
-           form.fields['username'].disabled = True
-           form.fields['username'].required = False
-        #    form.fields['password1'].required = False
-        #    form.fields['password2'].required = False
-           context = {'form':form, 'myuser': myuser, 'title':"ویرایش پروفایل"}
-           return render(request,'user/edit.html',context)
+            else:
+                form = EditFormUser(
+                    initial={'username': username_, 'email': myuser.user.email, 'phone_no': myuser.phone_no})
+            form.fields['username'].disabled = True
+            form.fields['username'].required = False
+            #    form.fields['password1'].required = False
+            #    form.fields['password2'].required = False
+            context = {'form': form, 'myuser': myuser, 'title': "ویرایش پروفایل"}
+            return render(request, 'user/edit.html', context)
 
     else:
         return redirect('index')
 
-@ login_required
+
+@login_required
 def fav_offer(request, offer_id):
-    offer = Offer.objects.get(id=offer_id)   #TODO: try catch
+    offer = Offer.objects.get(id=offer_id)  # TODO: try catch
     username = request.session.get("username")
     user = User.objects.get(username=username)
     myuser = MyUser.objects.get(user=user)
@@ -325,9 +340,9 @@ def fav_offer(request, offer_id):
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
 
 
-@ login_required
+@login_required
 def fav_provider(request, user_id):
-    target_user = User.objects.get(id=user_id)   #TODO: try catch
+    target_user = User.objects.get(id=user_id)  # TODO: try catch
     target_myuser = MyUser.objects.get(user=target_user)
     username = request.session.get("username")
     user = User.objects.get(username=username)
@@ -338,7 +353,6 @@ def fav_provider(request, user_id):
     else:
         myuser.fav_providers.add(target_myuser)
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
-
 
 # @require_http_methods(["GET", "POST"])
 # def password_reset(request):
@@ -383,4 +397,3 @@ def fav_provider(request, user_id):
 #             return render(request, 'account/password_reset_req.html', {'form': form})
 
 #     return render(request, 'account/password_reset_req.html', {'form': UserForgotPasswordForm, 'msg': msg})
-

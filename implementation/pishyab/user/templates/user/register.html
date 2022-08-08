@@ -46,12 +46,13 @@
     </div>
     
   </center>
-  
+
+
   <form method="POST" style="display:block;" id="form_user">
     {% csrf_token %}
 
     <fieldset class="form-group">
-      {{ form_user|crispy}}
+      {{form_user|crispy}}
     </fieldset>
 
     <center>
@@ -62,13 +63,12 @@
       <sub><a href="{% url "login" %}" style="text-decoration: none; color: blue; padding:3%; cursor:pointer;font-size: 150%;">حساب کاربری دارم</a></sub>
     </center>
   </form>
-
 
   <form method="POST" style="display:none;" id="form_provider">
     {% csrf_token %}
 
     <fieldset class="form-group">
-      {{ form_provider|crispy}}
+      {{form_provider|crispy}}
     </fieldset>
 
     <center>
@@ -79,5 +79,6 @@
       <sub><a href="{% url "login" %}" style="text-decoration: none; color: blue; padding:3%; cursor:pointer;font-size: 150%;">حساب کاربری دارم</a></sub>
     </center>
   </form>
+
 </div>
 {% endblock start %}

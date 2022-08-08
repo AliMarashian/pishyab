@@ -53,8 +53,7 @@ class EditFormUser(forms.Form):
     email = forms.EmailField(label="ایمیل")
     phone_no = forms.CharField(max_length = 20, label="شماره موبایل")
     username = forms.CharField(max_length = 20, label="نام‌کاربری")
-    location = PlainLocationField(zoom=7, label='مختصات', based_fields=[],
-                                  initial='35.699295968881565,51.3368797302246')
+    location = PlainLocationField(zoom=7, label='مختصات', based_fields=[], initial='35.699295968881565,51.3368797302246')
     # password1 = forms.CharField(max_length = 20, label="رمز عبور جدید", widget= forms.PasswordInput
     #                        (attrs={'id':'password_edit'}), required=False)
     # password2 = forms.CharField(max_length = 20, label="تکرار رمز عبور جدید", widget=forms.PasswordInput())
@@ -73,8 +72,7 @@ class EditFormProvider(forms.Form):
     orgname = forms.CharField(max_length = 50, label="نام سازمان")
     address = forms.CharField(max_length = 100, label="آدرس سازمان", required=False)
     description = forms.CharField(max_length = 200, widget=forms.Textarea, label="توضیحات سازمان", required=False)
-    location = PlainLocationField(zoom=7, label='مختصات', based_fields=[],
-                                  initial='35.699295968881565,51.3368797302246')
+    location = PlainLocationField(zoom=7, label='مختصات', based_fields=[], initial='35.699295968881565,51.3368797302246')
     class Meta:
         model = User
         fields = ['username', 'email', 'password1']
