@@ -75,9 +75,13 @@ def register(request):
             my_user = MyUser(user=user, is_provider=is_provider, phone_no=cleaned_form.get("phone_no"),
                              orgname=cleaned_form.get("orgname"), address=cleaned_form.get('address'),
                              description=cleaned_form.get('description'), license_link=cleaned_form.get('license_link'),
-                             is_verified=is_verified, location=cleaned_form.get('location'))
+                             is_verified=is_verified)
             if cleaned_form.get("pic_link"):
                 my_user.pic_link = cleaned_form.get("pic_link")
+            if cleaned_form.get("location"):
+                my_user.location = cleaned_form.get("location")
+            else:
+                my_user.location = '35.699295968881565,51.3368797302246'
             my_user.save()
             username = form.cleaned_data.get('username')
             email = form.cleaned_data.get('email')

@@ -150,7 +150,7 @@ def edit_offer(request, offer_id):
         old_offer = Offer.objects.get(id = offer_id)
 
         form = NewOfferForm(initial = {'user':old_offer.user, 'title':old_offer.title, 'description':old_offer.description, 'start_date': old_offer.start_date, 'start_time':old_offer.start_time,
-                'end_date':old_offer.end_date, 'end_time':old_offer.end_time, 'price':old_offer.price, 'discount':old_offer.discount, 'pic_link':old_offer.pic_link})
+                'end_date':old_offer.end_date, 'end_time':old_offer.end_time, 'price':old_offer.price, 'discount':old_offer.discount, 'pic_link':old_offer.pic_link, 'category':old_offer.category})
     return render(request, 'offer/edit_offer.html', {'form': form, 'title':'ویرایش پیشنهاد', 'myuser': myuser, 'offer_id': offer_id})
 
 

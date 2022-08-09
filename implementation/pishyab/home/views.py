@@ -25,10 +25,10 @@ def index(request):
         for offer in all_offers:
             initial_user = User.objects.get(id=offer['user_id'])
             my_user = MyUser.objects.get(user=initial_user)
-            dist.append(distance(myuser.location, my_user.location))
+            dist.append(round(distance(myuser.location, my_user.location),1))
     else:
         dist = [0] * len(all_offers)
-
+        
     sorted_offers = sorted(zip(all_offers, dist), key=lambda t: t[1])
 
     for offer, dist_ in sorted_offers:

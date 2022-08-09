@@ -22,7 +22,7 @@
                     {% endif %}
                     {% endif %}
                   {% endif %}
-                  <img src="{{myuser_toshow.pic_link}}" alt="{{x.title}}" style="width:100%">
+                  <img src="{{myuser_toshow.pic_link}}" alt="{{x.title}}" style="width:100%;height:100%;object-fit: cover;">
                 </div>
                 <div class="w3-container">
                               
@@ -152,7 +152,7 @@
           <!-- <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:48px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star-empty"></span></a> -->
           {% endif %}
         {% endif %}
-        <img src="{{x.pic_link}}" alt="{{x.title}}" style="width:100%">
+        <img src="{{x.pic_link}}" alt="{{x.title}}" style="width:100%;aspect-ratio: 1/1;object-fit: cover;">
       </div>
       <div class="w3-container">
         <h3>{{ x.title }}</h3> 
@@ -198,7 +198,7 @@
           <!-- <a href="{% url 'fav_offer' x.id %}" id="notfav-{{x.id}}" style="position:absolute; top:48px; left:8px;font-size: 20px;text-shadow:2px 2px 5px black;color:yellow"><span class="glyphicon glyphicon-star-empty"></span></a> -->
           {% endif %}
         {% endif %}
-        <img src="{{x.pic_link}}" alt="{{x.title}}" style="width:100%">
+        <img src="{{x.pic_link}}" alt="{{x.title}}" style="width:100%;aspect-ratio: 1/1;object-fit: cover;">
       </div>
       <div class="w3-container">
         <h3>{{ x.title }}</h3> 

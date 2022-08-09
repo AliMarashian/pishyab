@@ -1,10 +1,8 @@
 {% extends "home/index.html" %}
 {% load crispy_forms_tags %}
-{% load static %}
 
 
 
-<link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
 
 
 
@@ -12,17 +10,85 @@
 {{form_user.media}}
 {{form_provider.media}}
 
+<style>
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 100px;
+    height: 34px;
+  }
+  
+  .switch input {display:none;}
+  
+  .slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #2196F3;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 46px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+  }
+  
+  input:checked + .slider {
+    background-color: #19a232;
+  }
+  
+  input:focus + .slider {
+    box-shadow: 0 0 1px #19a232;
+  }
+  
+  input:checked + .slider:before {
+    -webkit-transform: translateX(46px);
+    -ms-transform: translateX(46px);
+    transform: translateX(46px);
+  }
+  
+  .ut_column {
+    float: left;
+    width: 33.33%;
+  }
+  
+  /* Clear floats after the columns */
+  .ut_row:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+
+  
+  .x1 {
+    color:red;
+  }
+
+</style>
+
 <script>
   function ut_change() {
     var checkBox = document.getElementById("ut_checkbox");
     var form_user = document.getElementById("form_user");
     var form_provider = document.getElementById("form_provider");
     if (checkBox.checked == false){
-      form_user.style.display = "block";
-      form_provider.style.display = "none";
-    } else {
       form_user.style.display = "none";
       form_provider.style.display = "block";
+    } else {
+      form_user.style.display = "block";
+      form_provider.style.display = "none";
     }
   }
   </script>
@@ -33,7 +99,7 @@
     نوع حساب خود را انتخاب کنید</b>
   </p>
     <div class="ut_row" style="width:70%;">
-      <div class="ut_column" style="color:#19a232">کاربر عادی</div>
+      <div class="ut_column" style="color:#2196F3">سرویس‌دهنده</div>
 
       <div class="ut_column">
         <label class="switch">
@@ -42,13 +108,13 @@
         </label>
       </div>
 
-      <div class="ut_column" style="color:#2196F3;">سرویس‌دهنده</div>
+      <div class="ut_column" style="color:#19a232;">کاربر عادی</div>
     </div>
     
   </center>
 
 
-  <form method="POST" style="display:block;" id="form_user">
+  <form method="POST" style="display:none;" id="form_user">
     {% csrf_token %}
 
     <fieldset class="form-group">
@@ -64,7 +130,7 @@
     </center>
   </form>
 
-  <form method="POST" style="display:none;" id="form_provider">
+  <form method="POST" style="display:block;" id="form_provider">
     {% csrf_token %}
 
     <fieldset class="form-group">

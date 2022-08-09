@@ -24,7 +24,7 @@ class UserRegisterForm(UserCreationForm):
     username = forms.CharField(max_length = 20, label="نام‌کاربری")
     password1 = forms.CharField(max_length = 20, label="رمز عبور", widget=forms.PasswordInput())
     password2 = forms.CharField(max_length = 20, label="تکرار رمز عبور", widget=forms.PasswordInput())
-    location = PlainLocationField(zoom=7, label='مختصات', based_fields=[], initial='35.699295968881565,51.3368797302246')
+    #location = PlainLocationField(zoom=7, label='مختصات', based_fields=[], initial='35.699295968881565,51.3368797302246')
 
     class Meta:
         model = User
